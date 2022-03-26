@@ -7,7 +7,7 @@
 1. win+r -> cmd
 2. cd /d ДиректорияСоСкриптом
 ex: cd /d C\:TwitterMultiActions
-3. pip install requirements.txt
+3. pip install -r requirements.txt
 4. python TwitterMultiActionsV2.py
 
 В accounts.txt вписываем куки от аккаунтов, каждый с новой строки
