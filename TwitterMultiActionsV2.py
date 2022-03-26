@@ -20,6 +20,7 @@ print('Telegram channel - https://t.me/n4z4v0d\n')
 
 
 user_action = int(input('1. Массовые подписки\n2. Массовые ретвиты\n3. Массовые лайки\n4. Массовые комментарии кошелька под постом\nВведите номер вашего действия: '))
+print('\n')
 
 if user_action == 1:
 	username_to_subscribe = str(input('Введите юзернейм профиля для подписки: ')).replace('@', '')
@@ -47,7 +48,7 @@ else:
 	tweet_url = str(input('Введите ссылку на твит: '))
 	tweet_id = tweet_url.split('status/')[-1]
 
-user_sleep_option = str(input('\nИспользовать задержку между выполнением действий? (y/N): '))
+user_sleep_option = str(input('Использовать задержку между выполнением действий? (y/N): '))
 
 if user_sleep_option in ('y', 'Y'):
 	user_time_to_sleep = int(input('Введите время в секундах для сна между действиями: '))
