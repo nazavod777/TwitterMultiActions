@@ -1,5 +1,5 @@
 from pyuseragents import random as random_useragent
-from requests import Session
+from requests import Session, get
 from random import choice, randint
 from time import sleep
 from msvcrt import getch
@@ -24,7 +24,7 @@ with open('accounts.txt', 'r') as file:
 	accounts_cookies = [row.strip() for row in file]
 
 
-user_action = int(input('1. Массовые подписки\n2. Массовый анфолоовинг\n3. Массовые ретвиты\n4. Массовые лайки\n5. Массовые комментарии кошелька под постом\n6. Подписка между аккаунтами\n7. Сделать твит с каждого аккаунта\nВведите номер вашего действия: '))
+user_action = int(input('1. Массовые подписки\n2. Массовый анфолоовинг\n3. Массовые ретвиты\n4. Массовые лайки\n5. Массовые комментарии кошелька под постом\n6. Подписка между аккаунтами\n7. Сделать твит с каждого аккаунта\n8. Изменить @username на каждом аккаунте\nВведите номер вашего действия: '))
 print('')
 
 wallets_addresses = True
@@ -78,7 +78,7 @@ use_proxies = str(input('Использовать Proxy? (y/N): ')).lower()
 
 if use_proxies == 'y':
 	proxy_type = str(input('Введите тип Proxy (http; https; socks4; socks5): '))
-	proxy_folder = str(input('Перетяняти .txt файл с Proxies (user:pass@ip:port; ip:port): '))
+	proxy_folder = str(input('Перетяните .txt файл с Proxies (user:pass@ip:port; ip:port): '))
 
 
 def random_proxy_from_file():
@@ -295,6 +295,47 @@ class MainWork():
 
 				return
 
+	def get_random_username(self):
+		while True:
+			try:
+				r = get('https://randomuser.me/api/')
+
+				if not r.ok:
+					raise Wrong_Response(r)
+
+				random_username = loads(r.text)['results'][0]['login']['username']
+
+			except Exception as error:
+				logger.error(f'{self.username} | Не удалось получить случайный @username, ошибка: {str(error)}, пробую еще раз')
+
+			except Wrong_Response as error:
+				logger.error(f'{self.username} | Не удалось получить случайный @username, ошибка: {str(error)}, код ответа: {str(r.status_code)}, ответ: {str(r.text)}, пробую еще раз')
+
+			else:
+				logger.success(f'{self.username} | Успешно получено случайный @username: {random_username}')
+
+				return(random_username)
+
+	def change_username(self):
+		for _ in range(3):
+			try:
+				random_username = self.get_random_username()
+				r = self.session.post('https://twitter.com/i/api/1.1/account/settings.json', headers = {'content-type': 'application/x-www-form-urlencoded'}, data = f'include_mention_filter=true&include_nsfw_user_flag=true&include_nsfw_admin_flag=true&include_ranked_timeline=true&include_alt_text_compose=true&screen_name={random_username}')
+
+				if not r.ok:
+					raise Wrong_Response(r)
+
+			except Exception as error:
+				logger.error(f'{self.username} | Ошибка при смене @username: {str(error)}')
+
+			except Wrong_Response as error:
+				logger.error(f'{self.username} | Ошибка при смене @username: {str(error)}, код ответа: {str(r.status_code)}, ответ: {str(r.text)}')
+
+			else:
+				logger.success(f'{self.username} | Аккаунт сменил @username на {random_username}')
+
+				return
+			
 
 if __name__ == '__main__':
 	clear()
@@ -348,6 +389,9 @@ if __name__ == '__main__':
 									current_text_to_tweet = choice(text_to_tweet_list)
 
 							main_worker_obj.mass_tweets(current_text_to_tweet)
+
+						elif user_action == 8:
+							main_worker_obj.change_username()
 				
 				except:
 					pass
