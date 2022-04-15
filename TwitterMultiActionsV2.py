@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from pyuseragents import random as random_useragent
 from requests import Session, get, post
 from random import choice, randint
