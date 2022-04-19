@@ -1,0 +1,1756 @@
+{
+	"countries": {
+		"country": [
+			{
+				"countryCode": "AD",
+				"countryName": "Andorra",
+				"capital": "Andorra la Vella",
+				"continent": "EU",
+				"languages": "ca"
+			},
+			{
+				"countryCode": "AE",
+				"countryName": "United Arab Emirates",
+				"capital": "Abu Dhabi",
+				"continent": "AS",
+				"languages": "ar-AE,fa,en,hi,ur"
+			},
+			{
+				"countryCode": "AF",
+				"countryName": "Afghanistan",
+				"capital": "Kabul",
+				"continent": "AS",
+				"languages": "fa-AF,ps,uz-AF,tk"
+			},
+			{
+				"countryCode": "AG",
+				"countryName": "Antigua and Barbuda",
+				"capital": "St. John's",
+				"continent": "NA",
+				"languages": "en-AG"
+			},
+			{
+				"countryCode": "AI",
+				"countryName": "Anguilla",
+				"capital": "The Valley",
+				"continent": "NA",
+				"languages": "en-AI"
+			},
+			{
+				"countryCode": "AL",
+				"countryName": "Albania",
+				"capital": "Tirana",
+				"continent": "EU",
+				"languages": "sq,el"
+			},
+			{
+				"countryCode": "AM",
+				"countryName": "Armenia",
+				"capital": "Yerevan",
+				"continent": "AS",
+				"languages": "hy"
+			},
+			{
+				"countryCode": "AO",
+				"countryName": "Angola",
+				"capital": "Luanda",
+				"continent": "AF",
+				"languages": "pt-AO"
+			},
+			{
+				"countryCode": "AQ",
+				"countryName": "Antarctica",
+				"capital": "",
+				"continent": "AN",
+				"languages": ""
+			},
+			{
+				"countryCode": "AR",
+				"countryName": "Argentina",
+				"capital": "Buenos Aires",
+				"continent": "SA",
+				"languages": "es-AR,en,it,de,fr,gn"
+			},
+			{
+				"countryCode": "AS",
+				"countryName": "American Samoa",
+				"capital": "Pago Pago",
+				"continent": "OC",
+				"languages": "en-AS,sm,to"
+			},
+			{
+				"countryCode": "AT",
+				"countryName": "Austria",
+				"capital": "Vienna",
+				"continent": "EU",
+				"languages": "de-AT,hr,hu,sl"
+			},
+			{
+				"countryCode": "AU",
+				"countryName": "Australia",
+				"capital": "Canberra",
+				"continent": "OC",
+				"languages": "en-AU"
+			},
+			{
+				"countryCode": "AW",
+				"countryName": "Aruba",
+				"capital": "Oranjestad",
+				"continent": "NA",
+				"languages": "nl-AW,es,en"
+			},
+			{
+				"countryCode": "AX",
+				"countryName": "Åland",
+				"capital": "Mariehamn",
+				"continent": "EU",
+				"languages": "sv-AX"
+			},
+			{
+				"countryCode": "AZ",
+				"countryName": "Azerbaijan",
+				"capital": "Baku",
+				"continent": "AS",
+				"languages": "az,ru,hy"
+			},
+			{
+				"countryCode": "BA",
+				"countryName": "Bosnia and Herzegovina",
+				"capital": "Sarajevo",
+				"continent": "EU",
+				"languages": "bs,hr-BA,sr-BA"
+			},
+			{
+				"countryCode": "BB",
+				"countryName": "Barbados",
+				"capital": "Bridgetown",
+				"continent": "NA",
+				"languages": "en-BB"
+			},
+			{
+				"countryCode": "BD",
+				"countryName": "Bangladesh",
+				"capital": "Dhaka",
+				"continent": "AS",
+				"languages": "bn-BD,en"
+			},
+			{
+				"countryCode": "BE",
+				"countryName": "Belgium",
+				"capital": "Brussels",
+				"continent": "EU",
+				"languages": "nl-BE,fr-BE,de-BE"
+			},
+			{
+				"countryCode": "BF",
+				"countryName": "Burkina Faso",
+				"capital": "Ouagadougou",
+				"continent": "AF",
+				"languages": "fr-BF"
+			},
+			{
+				"countryCode": "BG",
+				"countryName": "Bulgaria",
+				"capital": "Sofia",
+				"continent": "EU",
+				"languages": "bg,tr-BG"
+			},
+			{
+				"countryCode": "BH",
+				"countryName": "Bahrain",
+				"capital": "Manama",
+				"continent": "AS",
+				"languages": "ar-BH,en,fa,ur"
+			},
+			{
+				"countryCode": "BI",
+				"countryName": "Burundi",
+				"capital": "Bujumbura",
+				"continent": "AF",
+				"languages": "fr-BI,rn"
+			},
+			{
+				"countryCode": "BJ",
+				"countryName": "Benin",
+				"capital": "Porto-Novo",
+				"continent": "AF",
+				"languages": "fr-BJ"
+			},
+			{
+				"countryCode": "BL",
+				"countryName": "Saint Barthélemy",
+				"capital": "Gustavia",
+				"continent": "NA",
+				"languages": "fr"
+			},
+			{
+				"countryCode": "BM",
+				"countryName": "Bermuda",
+				"capital": "Hamilton",
+				"continent": "NA",
+				"languages": "en-BM,pt"
+			},
+			{
+				"countryCode": "BN",
+				"countryName": "Brunei",
+				"capital": "Bandar Seri Begawan",
+				"continent": "AS",
+				"languages": "ms-BN,en-BN"
+			},
+			{
+				"countryCode": "BO",
+				"countryName": "Bolivia",
+				"capital": "Sucre",
+				"continent": "SA",
+				"languages": "es-BO,qu,ay"
+			},
+			{
+				"countryCode": "BQ",
+				"countryName": "Bonaire",
+				"capital": "",
+				"continent": "NA",
+				"languages": "nl,pap,en"
+			},
+			{
+				"countryCode": "BR",
+				"countryName": "Brazil",
+				"capital": "Brasília",
+				"continent": "SA",
+				"languages": "pt-BR,es,en,fr"
+			},
+			{
+				"countryCode": "BS",
+				"countryName": "Bahamas",
+				"capital": "Nassau",
+				"continent": "NA",
+				"languages": "en-BS"
+			},
+			{
+				"countryCode": "BT",
+				"countryName": "Bhutan",
+				"capital": "Thimphu",
+				"continent": "AS",
+				"languages": "dz"
+			},
+			{
+				"countryCode": "BV",
+				"countryName": "Bouvet Island",
+				"capital": "",
+				"continent": "AN",
+				"languages": ""
+			},
+			{
+				"countryCode": "BW",
+				"countryName": "Botswana",
+				"capital": "Gaborone",
+				"continent": "AF",
+				"languages": "en-BW,tn-BW"
+			},
+			{
+				"countryCode": "BY",
+				"countryName": "Belarus",
+				"capital": "Minsk",
+				"continent": "EU",
+				"languages": "be,ru"
+			},
+			{
+				"countryCode": "BZ",
+				"countryName": "Belize",
+				"capital": "Belmopan",
+				"continent": "NA",
+				"languages": "en-BZ,es"
+			},
+			{
+				"countryCode": "CA",
+				"countryName": "Canada",
+				"capital": "Ottawa",
+				"continent": "NA",
+				"languages": "en-CA,fr-CA,iu"
+			},
+			{
+				"countryCode": "CC",
+				"countryName": "Cocos [Keeling] Islands",
+				"capital": "West Island",
+				"continent": "AS",
+				"languages": "ms-CC,en"
+			},
+			{
+				"countryCode": "CD",
+				"countryName": "Democratic Republic of the Congo",
+				"capital": "Kinshasa",
+				"continent": "AF",
+				"languages": "fr-CD,ln,kg"
+			},
+			{
+				"countryCode": "CF",
+				"countryName": "Central African Republic",
+				"capital": "Bangui",
+				"continent": "AF",
+				"languages": "fr-CF,sg,ln,kg"
+			},
+			{
+				"countryCode": "CG",
+				"countryName": "Republic of the Congo",
+				"capital": "Brazzaville",
+				"continent": "AF",
+				"languages": "fr-CG,kg,ln-CG"
+			},
+			{
+				"countryCode": "CH",
+				"countryName": "Switzerland",
+				"capital": "Berne",
+				"continent": "EU",
+				"languages": "de-CH,fr-CH,it-CH,rm"
+			},
+			{
+				"countryCode": "CI",
+				"countryName": "Ivory Coast",
+				"capital": "Yamoussoukro",
+				"continent": "AF",
+				"languages": "fr-CI"
+			},
+			{
+				"countryCode": "CK",
+				"countryName": "Cook Islands",
+				"capital": "Avarua",
+				"continent": "OC",
+				"languages": "en-CK,mi"
+			},
+			{
+				"countryCode": "CL",
+				"countryName": "Chile",
+				"capital": "Santiago",
+				"continent": "SA",
+				"languages": "es-CL"
+			},
+			{
+				"countryCode": "CM",
+				"countryName": "Cameroon",
+				"capital": "Yaoundé",
+				"continent": "AF",
+				"languages": "en-CM,fr-CM"
+			},
+			{
+				"countryCode": "CN",
+				"countryName": "China",
+				"capital": "Beijing",
+				"continent": "AS",
+				"languages": "zh-CN,yue,wuu,dta,ug,za"
+			},
+			{
+				"countryCode": "CO",
+				"countryName": "Colombia",
+				"capital": "Bogotá",
+				"continent": "SA",
+				"languages": "es-CO"
+			},
+			{
+				"countryCode": "CR",
+				"countryName": "Costa Rica",
+				"capital": "San José",
+				"continent": "NA",
+				"languages": "es-CR,en"
+			},
+			{
+				"countryCode": "CU",
+				"countryName": "Cuba",
+				"capital": "Havana",
+				"continent": "NA",
+				"languages": "es-CU"
+			},
+			{
+				"countryCode": "CV",
+				"countryName": "Cape Verde",
+				"capital": "Praia",
+				"continent": "AF",
+				"languages": "pt-CV"
+			},
+			{
+				"countryCode": "CW",
+				"countryName": "Curacao",
+				"capital": "Willemstad",
+				"continent": "NA",
+				"languages": "nl,pap"
+			},
+			{
+				"countryCode": "CX",
+				"countryName": "Christmas Island",
+				"capital": "The Settlement",
+				"continent": "AS",
+				"languages": "en,zh,ms-CC"
+			},
+			{
+				"countryCode": "CY",
+				"countryName": "Cyprus",
+				"capital": "Nicosia",
+				"continent": "EU",
+				"languages": "el-CY,tr-CY,en"
+			},
+			{
+				"countryCode": "CZ",
+				"countryName": "Czech Republic",
+				"capital": "Prague",
+				"continent": "EU",
+				"languages": "cs,sk"
+			},
+			{
+				"countryCode": "DE",
+				"countryName": "Germany",
+				"capital": "Berlin",
+				"continent": "EU",
+				"languages": "de"
+			},
+			{
+				"countryCode": "DJ",
+				"countryName": "Djibouti",
+				"capital": "Djibouti",
+				"continent": "AF",
+				"languages": "fr-DJ,ar,so-DJ,aa"
+			},
+			{
+				"countryCode": "DK",
+				"countryName": "Denmark",
+				"capital": "Copenhagen",
+				"continent": "EU",
+				"languages": "da-DK,en,fo,de-DK"
+			},
+			{
+				"countryCode": "DM",
+				"countryName": "Dominica",
+				"capital": "Roseau",
+				"continent": "NA",
+				"languages": "en-DM"
+			},
+			{
+				"countryCode": "DO",
+				"countryName": "Dominican Republic",
+				"capital": "Santo Domingo",
+				"continent": "NA",
+				"languages": "es-DO"
+			},
+			{
+				"countryCode": "DZ",
+				"countryName": "Algeria",
+				"capital": "Algiers",
+				"continent": "AF",
+				"languages": "ar-DZ"
+			},
+			{
+				"countryCode": "EC",
+				"countryName": "Ecuador",
+				"capital": "Quito",
+				"continent": "SA",
+				"languages": "es-EC"
+			},
+			{
+				"countryCode": "EE",
+				"countryName": "Estonia",
+				"capital": "Tallinn",
+				"continent": "EU",
+				"languages": "et,ru"
+			},
+			{
+				"countryCode": "EG",
+				"countryName": "Egypt",
+				"capital": "Cairo",
+				"continent": "AF",
+				"languages": "ar-EG,en,fr"
+			},
+			{
+				"countryCode": "EH",
+				"countryName": "Western Sahara",
+				"capital": "El Aaiún",
+				"continent": "AF",
+				"languages": "ar,mey"
+			},
+			{
+				"countryCode": "ER",
+				"countryName": "Eritrea",
+				"capital": "Asmara",
+				"continent": "AF",
+				"languages": "aa-ER,ar,tig,kun,ti-ER"
+			},
+			{
+				"countryCode": "ES",
+				"countryName": "Spain",
+				"capital": "Madrid",
+				"continent": "EU",
+				"languages": "es-ES,ca,gl,eu,oc"
+			},
+			{
+				"countryCode": "ET",
+				"countryName": "Ethiopia",
+				"capital": "Addis Ababa",
+				"continent": "AF",
+				"languages": "am,en-ET,om-ET,ti-ET,so-ET,sid"
+			},
+			{
+				"countryCode": "FI",
+				"countryName": "Finland",
+				"capital": "Helsinki",
+				"continent": "EU",
+				"languages": "fi-FI,sv-FI,smn"
+			},
+			{
+				"countryCode": "FJ",
+				"countryName": "Fiji",
+				"capital": "Suva",
+				"continent": "OC",
+				"languages": "en-FJ,fj"
+			},
+			{
+				"countryCode": "FK",
+				"countryName": "Falkland Islands",
+				"capital": "Stanley",
+				"continent": "SA",
+				"languages": "en-FK"
+			},
+			{
+				"countryCode": "FM",
+				"countryName": "Micronesia",
+				"capital": "Palikir",
+				"continent": "OC",
+				"languages": "en-FM,chk,pon,yap,kos,uli,woe,nkr,kpg"
+			},
+			{
+				"countryCode": "FO",
+				"countryName": "Faroe Islands",
+				"capital": "Tórshavn",
+				"continent": "EU",
+				"languages": "fo,da-FO"
+			},
+			{
+				"countryCode": "FR",
+				"countryName": "France",
+				"capital": "Paris",
+				"continent": "EU",
+				"languages": "fr-FR,frp,br,co,ca,eu,oc"
+			},
+			{
+				"countryCode": "GA",
+				"countryName": "Gabon",
+				"capital": "Libreville",
+				"continent": "AF",
+				"languages": "fr-GA"
+			},
+			{
+				"countryCode": "GB",
+				"countryName": "United Kingdom",
+				"capital": "London",
+				"continent": "EU",
+				"languages": "en-GB,cy-GB,gd"
+			},
+			{
+				"countryCode": "GD",
+				"countryName": "Grenada",
+				"capital": "St. George's",
+				"continent": "NA",
+				"languages": "en-GD"
+			},
+			{
+				"countryCode": "GE",
+				"countryName": "Georgia",
+				"capital": "Tbilisi",
+				"continent": "AS",
+				"languages": "ka,ru,hy,az"
+			},
+			{
+				"countryCode": "GF",
+				"countryName": "French Guiana",
+				"capital": "Cayenne",
+				"continent": "SA",
+				"languages": "fr-GF"
+			},
+			{
+				"countryCode": "GG",
+				"countryName": "Guernsey",
+				"capital": "St Peter Port",
+				"continent": "EU",
+				"languages": "en,fr"
+			},
+			{
+				"countryCode": "GH",
+				"countryName": "Ghana",
+				"capital": "Accra",
+				"continent": "AF",
+				"languages": "en-GH,ak,ee,tw"
+			},
+			{
+				"countryCode": "GI",
+				"countryName": "Gibraltar",
+				"capital": "Gibraltar",
+				"continent": "EU",
+				"languages": "en-GI,es,it,pt"
+			},
+			{
+				"countryCode": "GL",
+				"countryName": "Greenland",
+				"capital": "Nuuk",
+				"continent": "NA",
+				"languages": "kl,da-GL,en"
+			},
+			{
+				"countryCode": "GM",
+				"countryName": "Gambia",
+				"capital": "Banjul",
+				"continent": "AF",
+				"languages": "en-GM,mnk,wof,wo,ff"
+			},
+			{
+				"countryCode": "GN",
+				"countryName": "Guinea",
+				"capital": "Conakry",
+				"continent": "AF",
+				"languages": "fr-GN"
+			},
+			{
+				"countryCode": "GP",
+				"countryName": "Guadeloupe",
+				"capital": "Basse-Terre",
+				"continent": "NA",
+				"languages": "fr-GP"
+			},
+			{
+				"countryCode": "GQ",
+				"countryName": "Equatorial Guinea",
+				"capital": "Malabo",
+				"continent": "AF",
+				"languages": "es-GQ,fr"
+			},
+			{
+				"countryCode": "GR",
+				"countryName": "Greece",
+				"capital": "Athens",
+				"continent": "EU",
+				"languages": "el-GR,en,fr"
+			},
+			{
+				"countryCode": "GS",
+				"countryName": "South Georgia and the South Sandwich Islands",
+				"capital": "Grytviken",
+				"continent": "AN",
+				"languages": "en"
+			},
+			{
+				"countryCode": "GT",
+				"countryName": "Guatemala",
+				"capital": "Guatemala City",
+				"continent": "NA",
+				"languages": "es-GT"
+			},
+			{
+				"countryCode": "GU",
+				"countryName": "Guam",
+				"capital": "Hagåtña",
+				"continent": "OC",
+				"languages": "en-GU,ch-GU"
+			},
+			{
+				"countryCode": "GW",
+				"countryName": "Guinea-Bissau",
+				"capital": "Bissau",
+				"continent": "AF",
+				"languages": "pt-GW,pov"
+			},
+			{
+				"countryCode": "GY",
+				"countryName": "Guyana",
+				"capital": "Georgetown",
+				"continent": "SA",
+				"languages": "en-GY"
+			},
+			{
+				"countryCode": "HK",
+				"countryName": "Hong Kong",
+				"capital": "Hong Kong",
+				"continent": "AS",
+				"languages": "zh-HK,yue,zh,en"
+			},
+			{
+				"countryCode": "HM",
+				"countryName": "Heard Island and McDonald Islands",
+				"capital": "",
+				"continent": "AN",
+				"languages": ""
+			},
+			{
+				"countryCode": "HN",
+				"countryName": "Honduras",
+				"capital": "Tegucigalpa",
+				"continent": "NA",
+				"languages": "es-HN"
+			},
+			{
+				"countryCode": "HR",
+				"countryName": "Croatia",
+				"capital": "Zagreb",
+				"continent": "EU",
+				"languages": "hr-HR,sr"
+			},
+			{
+				"countryCode": "HT",
+				"countryName": "Haiti",
+				"capital": "Port-au-Prince",
+				"continent": "NA",
+				"languages": "ht,fr-HT"
+			},
+			{
+				"countryCode": "HU",
+				"countryName": "Hungary",
+				"capital": "Budapest",
+				"continent": "EU",
+				"languages": "hu-HU"
+			},
+			{
+				"countryCode": "ID",
+				"countryName": "Indonesia",
+				"capital": "Jakarta",
+				"continent": "AS",
+				"languages": "id,en,nl,jv"
+			},
+			{
+				"countryCode": "IE",
+				"countryName": "Ireland",
+				"capital": "Dublin",
+				"continent": "EU",
+				"languages": "en-IE,ga-IE"
+			},
+			{
+				"countryCode": "IL",
+				"countryName": "Israel",
+				"capital": "",
+				"continent": "AS",
+				"languages": "he,ar-IL,en-IL,"
+			},
+			{
+				"countryCode": "IM",
+				"countryName": "Isle of Man",
+				"capital": "Douglas",
+				"continent": "EU",
+				"languages": "en,gv"
+			},
+			{
+				"countryCode": "IN",
+				"countryName": "India",
+				"capital": "New Delhi",
+				"continent": "AS",
+				"languages": "en-IN,hi,bn,te,mr,ta,ur,gu,kn,ml,or,pa,as,bh,sat,ks,ne,sd,kok,doi,mni,sit,sa,fr,lus,inc"
+			},
+			{
+				"countryCode": "IO",
+				"countryName": "British Indian Ocean Territory",
+				"capital": "",
+				"continent": "AS",
+				"languages": "en-IO"
+			},
+			{
+				"countryCode": "IQ",
+				"countryName": "Iraq",
+				"capital": "Baghdad",
+				"continent": "AS",
+				"languages": "ar-IQ,ku,hy"
+			},
+			{
+				"countryCode": "IR",
+				"countryName": "Iran",
+				"capital": "Tehran",
+				"continent": "AS",
+				"languages": "fa-IR,ku"
+			},
+			{
+				"countryCode": "IS",
+				"countryName": "Iceland",
+				"capital": "Reykjavik",
+				"continent": "EU",
+				"languages": "is,en,de,da,sv,no"
+			},
+			{
+				"countryCode": "IT",
+				"countryName": "Italy",
+				"capital": "Rome",
+				"continent": "EU",
+				"languages": "it-IT,de-IT,fr-IT,sc,ca,co,sl"
+			},
+			{
+				"countryCode": "JE",
+				"countryName": "Jersey",
+				"capital": "Saint Helier",
+				"continent": "EU",
+				"languages": "en,pt"
+			},
+			{
+				"countryCode": "JM",
+				"countryName": "Jamaica",
+				"capital": "Kingston",
+				"continent": "NA",
+				"languages": "en-JM"
+			},
+			{
+				"countryCode": "JO",
+				"countryName": "Jordan",
+				"capital": "Amman",
+				"continent": "AS",
+				"languages": "ar-JO,en"
+			},
+			{
+				"countryCode": "JP",
+				"countryName": "Japan",
+				"capital": "Tokyo",
+				"continent": "AS",
+				"languages": "ja"
+			},
+			{
+				"countryCode": "KE",
+				"countryName": "Kenya",
+				"capital": "Nairobi",
+				"continent": "AF",
+				"languages": "en-KE,sw-KE"
+			},
+			{
+				"countryCode": "KG",
+				"countryName": "Kyrgyzstan",
+				"capital": "Bishkek",
+				"continent": "AS",
+				"languages": "ky,uz,ru"
+			},
+			{
+				"countryCode": "KH",
+				"countryName": "Cambodia",
+				"capital": "Phnom Penh",
+				"continent": "AS",
+				"languages": "km,fr,en"
+			},
+			{
+				"countryCode": "KI",
+				"countryName": "Kiribati",
+				"capital": "Tarawa",
+				"continent": "OC",
+				"languages": "en-KI,gil"
+			},
+			{
+				"countryCode": "KM",
+				"countryName": "Comoros",
+				"capital": "Moroni",
+				"continent": "AF",
+				"languages": "ar,fr-KM"
+			},
+			{
+				"countryCode": "KN",
+				"countryName": "Saint Kitts and Nevis",
+				"capital": "Basseterre",
+				"continent": "NA",
+				"languages": "en-KN"
+			},
+			{
+				"countryCode": "KP",
+				"countryName": "North Korea",
+				"capital": "Pyongyang",
+				"continent": "AS",
+				"languages": "ko-KP"
+			},
+			{
+				"countryCode": "KR",
+				"countryName": "South Korea",
+				"capital": "Seoul",
+				"continent": "AS",
+				"languages": "ko-KR,en"
+			},
+			{
+				"countryCode": "KW",
+				"countryName": "Kuwait",
+				"capital": "Kuwait City",
+				"continent": "AS",
+				"languages": "ar-KW,en"
+			},
+			{
+				"countryCode": "KY",
+				"countryName": "Cayman Islands",
+				"capital": "George Town",
+				"continent": "NA",
+				"languages": "en-KY"
+			},
+			{
+				"countryCode": "KZ",
+				"countryName": "Kazakhstan",
+				"capital": "Astana",
+				"continent": "AS",
+				"languages": "kk,ru"
+			},
+			{
+				"countryCode": "LA",
+				"countryName": "Laos",
+				"capital": "Vientiane",
+				"continent": "AS",
+				"languages": "lo,fr,en"
+			},
+			{
+				"countryCode": "LB",
+				"countryName": "Lebanon",
+				"capital": "Beirut",
+				"continent": "AS",
+				"languages": "ar-LB,fr-LB,en,hy"
+			},
+			{
+				"countryCode": "LC",
+				"countryName": "Saint Lucia",
+				"capital": "Castries",
+				"continent": "NA",
+				"languages": "en-LC"
+			},
+			{
+				"countryCode": "LI",
+				"countryName": "Liechtenstein",
+				"capital": "Vaduz",
+				"continent": "EU",
+				"languages": "de-LI"
+			},
+			{
+				"countryCode": "LK",
+				"countryName": "Sri Lanka",
+				"capital": "Colombo",
+				"continent": "AS",
+				"languages": "si,ta,en"
+			},
+			{
+				"countryCode": "LR",
+				"countryName": "Liberia",
+				"capital": "Monrovia",
+				"continent": "AF",
+				"languages": "en-LR"
+			},
+			{
+				"countryCode": "LS",
+				"countryName": "Lesotho",
+				"capital": "Maseru",
+				"continent": "AF",
+				"languages": "en-LS,st,zu,xh"
+			},
+			{
+				"countryCode": "LT",
+				"countryName": "Lithuania",
+				"capital": "Vilnius",
+				"continent": "EU",
+				"languages": "lt,ru,pl"
+			},
+			{
+				"countryCode": "LU",
+				"countryName": "Luxembourg",
+				"capital": "Luxembourg",
+				"continent": "EU",
+				"languages": "lb,de-LU,fr-LU"
+			},
+			{
+				"countryCode": "LV",
+				"countryName": "Latvia",
+				"capital": "Riga",
+				"continent": "EU",
+				"languages": "lv,ru,lt"
+			},
+			{
+				"countryCode": "LY",
+				"countryName": "Libya",
+				"capital": "Tripoli",
+				"continent": "AF",
+				"languages": "ar-LY,it,en"
+			},
+			{
+				"countryCode": "MA",
+				"countryName": "Morocco",
+				"capital": "Rabat",
+				"continent": "AF",
+				"languages": "ar-MA,fr"
+			},
+			{
+				"countryCode": "MC",
+				"countryName": "Monaco",
+				"capital": "Monaco",
+				"continent": "EU",
+				"languages": "fr-MC,en,it"
+			},
+			{
+				"countryCode": "MD",
+				"countryName": "Moldova",
+				"capital": "Chişinău",
+				"continent": "EU",
+				"languages": "ro,ru,gag,tr"
+			},
+			{
+				"countryCode": "ME",
+				"countryName": "Montenegro",
+				"capital": "Podgorica",
+				"continent": "EU",
+				"languages": "sr,hu,bs,sq,hr,rom"
+			},
+			{
+				"countryCode": "MF",
+				"countryName": "Saint Martin",
+				"capital": "Marigot",
+				"continent": "NA",
+				"languages": "fr"
+			},
+			{
+				"countryCode": "MG",
+				"countryName": "Madagascar",
+				"capital": "Antananarivo",
+				"continent": "AF",
+				"languages": "fr-MG,mg"
+			},
+			{
+				"countryCode": "MH",
+				"countryName": "Marshall Islands",
+				"capital": "Majuro",
+				"continent": "OC",
+				"languages": "mh,en-MH"
+			},
+			{
+				"countryCode": "MK",
+				"countryName": "Macedonia",
+				"capital": "Skopje",
+				"continent": "EU",
+				"languages": "mk,sq,tr,rmm,sr"
+			},
+			{
+				"countryCode": "ML",
+				"countryName": "Mali",
+				"capital": "Bamako",
+				"continent": "AF",
+				"languages": "fr-ML,bm"
+			},
+			{
+				"countryCode": "MM",
+				"countryName": "Myanmar [Burma]",
+				"capital": "Nay Pyi Taw",
+				"continent": "AS",
+				"languages": "my"
+			},
+			{
+				"countryCode": "MN",
+				"countryName": "Mongolia",
+				"capital": "Ulan Bator",
+				"continent": "AS",
+				"languages": "mn,ru"
+			},
+			{
+				"countryCode": "MO",
+				"countryName": "Macao",
+				"capital": "Macao",
+				"continent": "AS",
+				"languages": "zh,zh-MO,pt"
+			},
+			{
+				"countryCode": "MP",
+				"countryName": "Northern Mariana Islands",
+				"capital": "Saipan",
+				"continent": "OC",
+				"languages": "fil,tl,zh,ch-MP,en-MP"
+			},
+			{
+				"countryCode": "MQ",
+				"countryName": "Martinique",
+				"capital": "Fort-de-France",
+				"continent": "NA",
+				"languages": "fr-MQ"
+			},
+			{
+				"countryCode": "MR",
+				"countryName": "Mauritania",
+				"capital": "Nouakchott",
+				"continent": "AF",
+				"languages": "ar-MR,fuc,snk,fr,mey,wo"
+			},
+			{
+				"countryCode": "MS",
+				"countryName": "Montserrat",
+				"capital": "Plymouth",
+				"continent": "NA",
+				"languages": "en-MS"
+			},
+			{
+				"countryCode": "MT",
+				"countryName": "Malta",
+				"capital": "Valletta",
+				"continent": "EU",
+				"languages": "mt,en-MT"
+			},
+			{
+				"countryCode": "MU",
+				"countryName": "Mauritius",
+				"capital": "Port Louis",
+				"continent": "AF",
+				"languages": "en-MU,bho,fr"
+			},
+			{
+				"countryCode": "MV",
+				"countryName": "Maldives",
+				"capital": "Malé",
+				"continent": "AS",
+				"languages": "dv,en"
+			},
+			{
+				"countryCode": "MW",
+				"countryName": "Malawi",
+				"capital": "Lilongwe",
+				"continent": "AF",
+				"languages": "ny,yao,tum,swk"
+			},
+			{
+				"countryCode": "MX",
+				"countryName": "Mexico",
+				"capital": "Mexico City",
+				"continent": "NA",
+				"languages": "es-MX"
+			},
+			{
+				"countryCode": "MY",
+				"countryName": "Malaysia",
+				"capital": "Kuala Lumpur",
+				"continent": "AS",
+				"languages": "ms-MY,en,zh,ta,te,ml,pa,th"
+			},
+			{
+				"countryCode": "MZ",
+				"countryName": "Mozambique",
+				"capital": "Maputo",
+				"continent": "AF",
+				"languages": "pt-MZ,vmw"
+			},
+			{
+				"countryCode": "NA",
+				"countryName": "Namibia",
+				"capital": "Windhoek",
+				"continent": "AF",
+				"languages": "en-NA,af,de,hz,naq"
+			},
+			{
+				"countryCode": "NC",
+				"countryName": "New Caledonia",
+				"capital": "Noumea",
+				"continent": "OC",
+				"languages": "fr-NC"
+			},
+			{
+				"countryCode": "NE",
+				"countryName": "Niger",
+				"capital": "Niamey",
+				"continent": "AF",
+				"languages": "fr-NE,ha,kr,dje"
+			},
+			{
+				"countryCode": "NF",
+				"countryName": "Norfolk Island",
+				"capital": "Kingston",
+				"continent": "OC",
+				"languages": "en-NF"
+			},
+			{
+				"countryCode": "NG",
+				"countryName": "Nigeria",
+				"capital": "Abuja",
+				"continent": "AF",
+				"languages": "en-NG,ha,yo,ig,ff"
+			},
+			{
+				"countryCode": "NI",
+				"countryName": "Nicaragua",
+				"capital": "Managua",
+				"continent": "NA",
+				"languages": "es-NI,en"
+			},
+			{
+				"countryCode": "NL",
+				"countryName": "Netherlands",
+				"capital": "Amsterdam",
+				"continent": "EU",
+				"languages": "nl-NL,fy-NL"
+			},
+			{
+				"countryCode": "NO",
+				"countryName": "Norway",
+				"capital": "Oslo",
+				"continent": "EU",
+				"languages": "no,nb,nn,se,fi"
+			},
+			{
+				"countryCode": "NP",
+				"countryName": "Nepal",
+				"capital": "Kathmandu",
+				"continent": "AS",
+				"languages": "ne,en"
+			},
+			{
+				"countryCode": "NR",
+				"countryName": "Nauru",
+				"capital": "",
+				"continent": "OC",
+				"languages": "na,en-NR"
+			},
+			{
+				"countryCode": "NU",
+				"countryName": "Niue",
+				"capital": "Alofi",
+				"continent": "OC",
+				"languages": "niu,en-NU"
+			},
+			{
+				"countryCode": "NZ",
+				"countryName": "New Zealand",
+				"capital": "Wellington",
+				"continent": "OC",
+				"languages": "en-NZ,mi"
+			},
+			{
+				"countryCode": "OM",
+				"countryName": "Oman",
+				"capital": "Muscat",
+				"continent": "AS",
+				"languages": "ar-OM,en,bal,ur"
+			},
+			{
+				"countryCode": "PA",
+				"countryName": "Panama",
+				"capital": "Panama City",
+				"continent": "NA",
+				"languages": "es-PA,en"
+			},
+			{
+				"countryCode": "PE",
+				"countryName": "Peru",
+				"capital": "Lima",
+				"continent": "SA",
+				"languages": "es-PE,qu,ay"
+			},
+			{
+				"countryCode": "PF",
+				"countryName": "French Polynesia",
+				"capital": "Papeete",
+				"continent": "OC",
+				"languages": "fr-PF,ty"
+			},
+			{
+				"countryCode": "PG",
+				"countryName": "Papua New Guinea",
+				"capital": "Port Moresby",
+				"continent": "OC",
+				"languages": "en-PG,ho,meu,tpi"
+			},
+			{
+				"countryCode": "PH",
+				"countryName": "Philippines",
+				"capital": "Manila",
+				"continent": "AS",
+				"languages": "tl,en-PH,fil"
+			},
+			{
+				"countryCode": "PK",
+				"countryName": "Pakistan",
+				"capital": "Islamabad",
+				"continent": "AS",
+				"languages": "ur-PK,en-PK,pa,sd,ps,brh"
+			},
+			{
+				"countryCode": "PL",
+				"countryName": "Poland",
+				"capital": "Warsaw",
+				"continent": "EU",
+				"languages": "pl"
+			},
+			{
+				"countryCode": "PM",
+				"countryName": "Saint Pierre and Miquelon",
+				"capital": "Saint-Pierre",
+				"continent": "NA",
+				"languages": "fr-PM"
+			},
+			{
+				"countryCode": "PN",
+				"countryName": "Pitcairn Islands",
+				"capital": "Adamstown",
+				"continent": "OC",
+				"languages": "en-PN"
+			},
+			{
+				"countryCode": "PR",
+				"countryName": "Puerto Rico",
+				"capital": "San Juan",
+				"continent": "NA",
+				"languages": "en-PR,es-PR"
+			},
+			{
+				"countryCode": "PS",
+				"countryName": "Palestine",
+				"capital": "",
+				"continent": "AS",
+				"languages": "ar-PS"
+			},
+			{
+				"countryCode": "PT",
+				"countryName": "Portugal",
+				"capital": "Lisbon",
+				"continent": "EU",
+				"languages": "pt-PT,mwl"
+			},
+			{
+				"countryCode": "PW",
+				"countryName": "Palau",
+				"capital": "Melekeok - Palau State Capital",
+				"continent": "OC",
+				"languages": "pau,sov,en-PW,tox,ja,fil,zh"
+			},
+			{
+				"countryCode": "PY",
+				"countryName": "Paraguay",
+				"capital": "Asunción",
+				"continent": "SA",
+				"languages": "es-PY,gn"
+			},
+			{
+				"countryCode": "QA",
+				"countryName": "Qatar",
+				"capital": "Doha",
+				"continent": "AS",
+				"languages": "ar-QA,es"
+			},
+			{
+				"countryCode": "RE",
+				"countryName": "Réunion",
+				"capital": "Saint-Denis",
+				"continent": "AF",
+				"languages": "fr-RE"
+			},
+			{
+				"countryCode": "RO",
+				"countryName": "Romania",
+				"capital": "Bucharest",
+				"continent": "EU",
+				"languages": "ro,hu,rom"
+			},
+			{
+				"countryCode": "RS",
+				"countryName": "Serbia",
+				"capital": "Belgrade",
+				"continent": "EU",
+				"languages": "sr,hu,bs,rom"
+			},
+			{
+				"countryCode": "RU",
+				"countryName": "Russia",
+				"capital": "Moscow",
+				"continent": "EU",
+				"languages": "ru,tt,xal,cau,ady,kv,ce,tyv,cv,udm,tut,mns,bua,myv,mdf,chm,ba,inh,tut,kbd,krc,ava,sah,nog"
+			},
+			{
+				"countryCode": "RW",
+				"countryName": "Rwanda",
+				"capital": "Kigali",
+				"continent": "AF",
+				"languages": "rw,en-RW,fr-RW,sw"
+			},
+			{
+				"countryCode": "SA",
+				"countryName": "Saudi Arabia",
+				"capital": "Riyadh",
+				"continent": "AS",
+				"languages": "ar-SA"
+			},
+			{
+				"countryCode": "SB",
+				"countryName": "Solomon Islands",
+				"capital": "Honiara",
+				"continent": "OC",
+				"languages": "en-SB,tpi"
+			},
+			{
+				"countryCode": "SC",
+				"countryName": "Seychelles",
+				"capital": "Victoria",
+				"continent": "AF",
+				"languages": "en-SC,fr-SC"
+			},
+			{
+				"countryCode": "SD",
+				"countryName": "Sudan",
+				"capital": "Khartoum",
+				"continent": "AF",
+				"languages": "ar-SD,en,fia"
+			},
+			{
+				"countryCode": "SE",
+				"countryName": "Sweden",
+				"capital": "Stockholm",
+				"continent": "EU",
+				"languages": "sv-SE,se,sma,fi-SE"
+			},
+			{
+				"countryCode": "SG",
+				"countryName": "Singapore",
+				"capital": "Singapore",
+				"continent": "AS",
+				"languages": "cmn,en-SG,ms-SG,ta-SG,zh-SG"
+			},
+			{
+				"countryCode": "SH",
+				"countryName": "Saint Helena",
+				"capital": "Jamestown",
+				"continent": "AF",
+				"languages": "en-SH"
+			},
+			{
+				"countryCode": "SI",
+				"countryName": "Slovenia",
+				"capital": "Ljubljana",
+				"continent": "EU",
+				"languages": "sl,sh"
+			},
+			{
+				"countryCode": "SJ",
+				"countryName": "Svalbard and Jan Mayen",
+				"capital": "Longyearbyen",
+				"continent": "EU",
+				"languages": "no,ru"
+			},
+			{
+				"countryCode": "SK",
+				"countryName": "Slovakia",
+				"capital": "Bratislava",
+				"continent": "EU",
+				"languages": "sk,hu"
+			},
+			{
+				"countryCode": "SL",
+				"countryName": "Sierra Leone",
+				"capital": "Freetown",
+				"continent": "AF",
+				"languages": "en-SL,men,tem"
+			},
+			{
+				"countryCode": "SM",
+				"countryName": "San Marino",
+				"capital": "San Marino",
+				"continent": "EU",
+				"languages": "it-SM"
+			},
+			{
+				"countryCode": "SN",
+				"countryName": "Senegal",
+				"capital": "Dakar",
+				"continent": "AF",
+				"languages": "fr-SN,wo,fuc,mnk"
+			},
+			{
+				"countryCode": "SO",
+				"countryName": "Somalia",
+				"capital": "Mogadishu",
+				"continent": "AF",
+				"languages": "so-SO,ar-SO,it,en-SO"
+			},
+			{
+				"countryCode": "SR",
+				"countryName": "Suriname",
+				"capital": "Paramaribo",
+				"continent": "SA",
+				"languages": "nl-SR,en,srn,hns,jv"
+			},
+			{
+				"countryCode": "SS",
+				"countryName": "South Sudan",
+				"capital": "Juba",
+				"continent": "AF",
+				"languages": "en"
+			},
+			{
+				"countryCode": "ST",
+				"countryName": "São Tomé and Príncipe",
+				"capital": "São Tomé",
+				"continent": "AF",
+				"languages": "pt-ST"
+			},
+			{
+				"countryCode": "SV",
+				"countryName": "El Salvador",
+				"capital": "San Salvador",
+				"continent": "NA",
+				"languages": "es-SV"
+			},
+			{
+				"countryCode": "SX",
+				"countryName": "Sint Maarten",
+				"capital": "Philipsburg",
+				"continent": "NA",
+				"languages": "nl,en"
+			},
+			{
+				"countryCode": "SY",
+				"countryName": "Syria",
+				"capital": "Damascus",
+				"continent": "AS",
+				"languages": "ar-SY,ku,hy,arc,fr,en"
+			},
+			{
+				"countryCode": "SZ",
+				"countryName": "Swaziland",
+				"capital": "Mbabane",
+				"continent": "AF",
+				"languages": "en-SZ,ss-SZ"
+			},
+			{
+				"countryCode": "TC",
+				"countryName": "Turks and Caicos Islands",
+				"capital": "Cockburn Town",
+				"continent": "NA",
+				"languages": "en-TC"
+			},
+			{
+				"countryCode": "TD",
+				"countryName": "Chad",
+				"capital": "N'Djamena",
+				"continent": "AF",
+				"languages": "fr-TD,ar-TD,sre"
+			},
+			{
+				"countryCode": "TF",
+				"countryName": "French Southern Territories",
+				"capital": "Port-aux-Français",
+				"continent": "AN",
+				"languages": "fr"
+			},
+			{
+				"countryCode": "TG",
+				"countryName": "Togo",
+				"capital": "Lomé",
+				"continent": "AF",
+				"languages": "fr-TG,ee,hna,kbp,dag,ha"
+			},
+			{
+				"countryCode": "TH",
+				"countryName": "Thailand",
+				"capital": "Bangkok",
+				"continent": "AS",
+				"languages": "th,en"
+			},
+			{
+				"countryCode": "TJ",
+				"countryName": "Tajikistan",
+				"capital": "Dushanbe",
+				"continent": "AS",
+				"languages": "tg,ru"
+			},
+			{
+				"countryCode": "TK",
+				"countryName": "Tokelau",
+				"capital": "",
+				"continent": "OC",
+				"languages": "tkl,en-TK"
+			},
+			{
+				"countryCode": "TL",
+				"countryName": "East Timor",
+				"capital": "Dili",
+				"continent": "OC",
+				"languages": "tet,pt-TL,id,en"
+			},
+			{
+				"countryCode": "TM",
+				"countryName": "Turkmenistan",
+				"capital": "Ashgabat",
+				"continent": "AS",
+				"languages": "tk,ru,uz"
+			},
+			{
+				"countryCode": "TN",
+				"countryName": "Tunisia",
+				"capital": "Tunis",
+				"continent": "AF",
+				"languages": "ar-TN,fr"
+			},
+			{
+				"countryCode": "TO",
+				"countryName": "Tonga",
+				"capital": "Nuku'alofa",
+				"continent": "OC",
+				"languages": "to,en-TO"
+			},
+			{
+				"countryCode": "TR",
+				"countryName": "Turkey",
+				"capital": "Ankara",
+				"continent": "AS",
+				"languages": "tr-TR,ku,diq,az,av"
+			},
+			{
+				"countryCode": "TT",
+				"countryName": "Trinidad and Tobago",
+				"capital": "Port of Spain",
+				"continent": "NA",
+				"languages": "en-TT,hns,fr,es,zh"
+			},
+			{
+				"countryCode": "TV",
+				"countryName": "Tuvalu",
+				"capital": "Funafuti",
+				"continent": "OC",
+				"languages": "tvl,en,sm,gil"
+			},
+			{
+				"countryCode": "TW",
+				"countryName": "Taiwan",
+				"capital": "Taipei",
+				"continent": "AS",
+				"languages": "zh-TW,zh,nan,hak"
+			},
+			{
+				"countryCode": "TZ",
+				"countryName": "Tanzania",
+				"capital": "Dodoma",
+				"continent": "AF",
+				"languages": "sw-TZ,en,ar"
+			},
+			{
+				"countryCode": "UA",
+				"countryName": "Ukraine",
+				"capital": "Kyiv",
+				"continent": "EU",
+				"languages": "uk,ru-UA,rom,pl,hu"
+			},
+			{
+				"countryCode": "UG",
+				"countryName": "Uganda",
+				"capital": "Kampala",
+				"continent": "AF",
+				"languages": "en-UG,lg,sw,ar"
+			},
+			{
+				"countryCode": "UM",
+				"countryName": "U.S. Minor Outlying Islands",
+				"capital": "",
+				"continent": "OC",
+				"languages": "en-UM"
+			},
+			{
+				"countryCode": "US",
+				"countryName": "United States",
+				"capital": "Washington",
+				"continent": "NA",
+				"languages": "en-US,es-US,haw,fr"
+			},
+			{
+				"countryCode": "UY",
+				"countryName": "Uruguay",
+				"capital": "Montevideo",
+				"continent": "SA",
+				"languages": "es-UY"
+			},
+			{
+				"countryCode": "UZ",
+				"countryName": "Uzbekistan",
+				"capital": "Tashkent",
+				"continent": "AS",
+				"languages": "uz,ru,tg"
+			},
+			{
+				"countryCode": "VA",
+				"countryName": "Vatican City",
+				"capital": "Vatican",
+				"continent": "EU",
+				"languages": "la,it,fr"
+			},
+			{
+				"countryCode": "VC",
+				"countryName": "Saint Vincent and the Grenadines",
+				"capital": "Kingstown",
+				"continent": "NA",
+				"languages": "en-VC,fr"
+			},
+			{
+				"countryCode": "VE",
+				"countryName": "Venezuela",
+				"capital": "Caracas",
+				"continent": "SA",
+				"languages": "es-VE"
+			},
+			{
+				"countryCode": "VG",
+				"countryName": "British Virgin Islands",
+				"capital": "Road Town",
+				"continent": "NA",
+				"languages": "en-VG"
+			},
+			{
+				"countryCode": "VI",
+				"countryName": "U.S. Virgin Islands",
+				"capital": "Charlotte Amalie",
+				"continent": "NA",
+				"languages": "en-VI"
+			},
+			{
+				"countryCode": "VN",
+				"countryName": "Vietnam",
+				"capital": "Hanoi",
+				"continent": "AS",
+				"languages": "vi,en,fr,zh,km"
+			},
+			{
+				"countryCode": "VU",
+				"countryName": "Vanuatu",
+				"capital": "Port Vila",
+				"continent": "OC",
+				"languages": "bi,en-VU,fr-VU"
+			},
+			{
+				"countryCode": "WF",
+				"countryName": "Wallis and Futuna",
+				"capital": "Mata-Utu",
+				"continent": "OC",
+				"languages": "wls,fud,fr-WF"
+			},
+			{
+				"countryCode": "WS",
+				"countryName": "Samoa",
+				"capital": "Apia",
+				"continent": "OC",
+				"languages": "sm,en-WS"
+			},
+			{
+				"countryCode": "XK",
+				"countryName": "Kosovo",
+				"capital": "Pristina",
+				"continent": "EU",
+				"languages": "sq,sr"
+			},
+			{
+				"countryCode": "YE",
+				"countryName": "Yemen",
+				"capital": "Sanaa",
+				"continent": "AS",
+				"languages": "ar-YE"
+			},
+			{
+				"countryCode": "YT",
+				"countryName": "Mayotte",
+				"capital": "Mamoutzou",
+				"continent": "AF",
+				"languages": "fr-YT"
+			},
+			{
+				"countryCode": "ZA",
+				"countryName": "South Africa",
+				"capital": "Pretoria",
+				"continent": "AF",
+				"languages": "zu,xh,af,nso,en-ZA,tn,st,ts,ss,ve,nr"
+			},
+			{
+				"countryCode": "ZM",
+				"countryName": "Zambia",
+				"capital": "Lusaka",
+				"continent": "AF",
+				"languages": "en-ZM,bem,loz,lun,lue,ny,toi"
+			},
+			{
+				"countryCode": "ZW",
+				"countryName": "Zimbabwe",
+				"capital": "Harare",
+				"continent": "AF",
+				"languages": "en-ZW,sn,nr,nd"
+			}
+		]
+	}
+}
