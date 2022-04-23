@@ -77,6 +77,8 @@ elif user_action == 7:
 	with open(text_to_tweet_folder, 'r', encoding = 'utf-8') as file:
 		text_to_tweet_list = [row.strip() for row in file]
 
+	quote_url = input('Введите ссылку на твит для цитирования (оставьте пустым для обычного твита):')
+
 elif user_action in (3, 4):
 	tweet_url = str(input('Введите ссылку на твит: '))
 	tweet_id = tweet_url.split('status/')[-1].split('/')[0].split('?')[0].split('&')[0].replace(' ', '')
@@ -325,10 +327,13 @@ class App():
 
 				return
 	
-	def mass_tweets(self, text_to_tweet):
+	def mass_tweets(self, text_to_tweet, tweet_to_quote=None):
 		for _ in range(3):
 			try:
-				r = self.session.post(f'https://twitter.com/i/api/graphql/{self.queryIdforCreateTweet}/CreateTweet', json = {"variables":"{\"tweet_text\":\"" + text_to_tweet + "\",\"media\":{\"media_entities\":[],\"possibly_sensitive\":false},\"withDownvotePerspective\":false,\"withReactionsMetadata\":false,\"withReactionsPerspective\":false,\"withSuperFollowsTweetFields\":true,\"withSuperFollowsUserFields\":true,\"semantic_annotation_ids\":[],\"dark_request\":false,\"__fs_dont_mention_me_view_api_enabled\":true,\"__fs_interactive_text_enabled\":true,\"__fs_responsive_web_uc_gql_enabled\":false}","queryId":"" + self.queryIdforCreateTweet + ""}, verify = False)
+				if tweet_to_quote is None or len(tweet_to_quote) == 0:
+					r = self.session.post(f'https://twitter.com/i/api/graphql/{self.queryIdforCreateTweet}/CreateTweet', json = {"variables":"{\"tweet_text\":\"" + text_to_tweet + "\",\"media\":{\"media_entities\":[],\"possibly_sensitive\":false},\"withDownvotePerspective\":false,\"withReactionsMetadata\":false,\"withReactionsPerspective\":false,\"withSuperFollowsTweetFields\":true,\"withSuperFollowsUserFields\":true,\"semantic_annotation_ids\":[],\"dark_request\":false,\"__fs_dont_mention_me_view_api_enabled\":true,\"__fs_interactive_text_enabled\":true,\"__fs_responsive_web_uc_gql_enabled\":false}","queryId":"" + self.queryIdforCreateTweet + ""}, verify = False)
+				else:
+					r = self.session.post(f'https://twitter.com/i/api/graphql/{self.queryIdforCreateTweet}/CreateTweet', json={"variables": "{\"tweet_text\":\"" + text_to_tweet + "\",\"attachment_url\":\"" + tweet_to_quote + "\",\"media\":{\"media_entities\":[],\"possibly_sensitive\":false},\"withDownvotePerspective\":false,\"withReactionsMetadata\":false,\"withReactionsPerspective\":false,\"withSuperFollowsTweetFields\":true,\"withSuperFollowsUserFields\":true,\"semantic_annotation_ids\":[],\"dark_request\":false,\"__fs_dont_mention_me_view_api_enabled\":true,\"__fs_interactive_text_enabled\":true,\"__fs_responsive_web_uc_gql_enabled\":false}", "queryId": "" + self.queryIdforCreateTweet + ""}, verify=False)
 
 				if not r.ok:
 					raise Wrong_Response(r)
@@ -552,7 +557,7 @@ def start(data):
 				else:
 					current_text_to_tweet = choice(text_to_tweet_list)
 
-			app.mass_tweets(current_text_to_tweet)
+			app.mass_tweets(current_text_to_tweet, quote_url)
 
 		elif user_action == 8:
 			app.change_username()
