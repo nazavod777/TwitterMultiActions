@@ -81,6 +81,15 @@ elif user_action in (3, 4):
 	tweet_url = str(input('Введите ссылку на твит: '))
 	tweet_id = tweet_url.split('status/')[-1].split('/')[0].split('?')[0].split('&')[0].replace(' ', '')
 
+elif user_action == 6:
+	how_much_users_first_users_to_subs = input('Сколько первых юзеров брать для подписки (условно 100 куков, сколько из них первых по счету брать, напр: 20. Если нужно подписаться между ВСЕМИ аккаунтами - нажмите Enter, либо введите 0): ')
+
+	if len(how_much_users_first_users_to_subs) == 0 or how_much_users_first_users_to_subs == '0':
+		how_much_users_first_users_to_subs == None
+
+	else:
+		how_much_users_first_users_to_subs: int
+
 elif user_action == 9:
 	avatars_source = int(input('Выберите способ загрузки аватарок (1 - из файла; 2 - случайные с thispersondoesnotexist.com): '))
 
@@ -131,10 +140,16 @@ class App():
 		self.session = Session()
 		self.session.headers.update({'user-agent': random_useragent(), 'Origin': 'https://mobile.twitter.com', 'Referer': 'https://mobile.twitter.com/', 'x-twitter-active-user': 'yes', 'x-twitter-auth-type': 'OAuth2Session', 'x-twitter-client-language': 'en', 'content-type': 'application/json'})
 
+		self.session_unblock = Session()
+		self.session_unblock.headers.update({'accept': '*/*', 'accept-language': 'ru,en;q=0.9,vi;q=0.8,es;q=0.7', 'referer': 'https://twitter.com/i/flow/login', 'user-agent': self.session.headers['user-agent']})
+
 		if current_proxy:
 			self.session.proxies.update({'http': f'{proxy_type}://{current_proxy}', 'https': f'{proxy_type}://{current_proxy}'})
+			self.session_unblock.proxies.update({'http': f'{proxy_type}://{current_proxy}', 'https': f'{proxy_type}://{current_proxy}'})
 
-		while True:
+
+	def get_values(self):
+		for _ in range(15):
 			try:
 				r = self.session.get('https://twitter.com/home', verify = False)
 
@@ -155,13 +170,21 @@ class App():
 				if '[' in self.cookies_str and ']' in self.cookies_str:
 					for current_cookie_value in loads('[' + self.cookies_str.split('[')[-1]):
 						self.session.cookies[current_cookie_value['name']] = current_cookie_value['value']
+						self.session_unblock.cookies[current_cookie_value['name']] = current_cookie_value['value']
 
 						if current_cookie_value['name'] == 'ct0':
 							csrf_token = current_cookie_value['value']
 
+						elif current_cookie_value['name'] == 'lang':
+							self.lang = current_cookie_value['lang']
+
+
 				else:
 					self.session.headers.update({'cookie': self.cookies_str})
 					csrf_token = self.cookies_str.split('ct0=')[-1].split(';')[0]
+
+					self.session_unblock.headers.update({'cookie': self.cookies_str})
+					self.lang = self.cookies_str.split('lang=')[-1].split(';')[0]
 
 				self.session.headers.update({'authorization': bearer_token, 'x-csrf-token': csrf_token})
 
@@ -174,7 +197,12 @@ class App():
 				continue
 
 			else:
-				break
+				return(True)
+
+		with open('errors.txt', 'a') as file:
+			file.write(f'None | {self.cookies_str}')
+
+		return(False)
 
 	def get_username(self, write_option):
 		for _ in range(3):
@@ -208,18 +236,25 @@ class App():
 						return(False, None)
 
 					elif loads(r.text)['errors'][0]['message'] == 'To protect our users from spam and other malicious activity, this account is temporarily locked. Please log in to https://twitter.com to unlock your account.':
-						logger.error(f'Необходимо подтвердить аккаунт, cookies: {self.cookies_str}')
+						logger.info(f'Пробую подтвердить аккаунт, cookies: {self.cookies_str}')
 
-						with open('temporarily_locked_cookies.txt', 'a') as file:
-							file.write(f'{self.cookies_str}\n')
+						if not self.unfreeze_account():
+							with open('temporarily_locked_cookies.txt', 'a') as file:
+								file.write(f'{self.cookies_str}\n')
 
-						return(False, None)
+							return(False, None)
+
+						else:
+							self.get_username(write_option)
 
 				else:
 					logger.error(f'Ошибка при получении @username: {str(error)}, код ответа: {str(r.status_code)}, ответ: {str(r.text)}, строка: {self.cookies_str}')
 
 			else:
 				return(True, self.username)
+
+		with open('errors.txt', 'a') as file:
+			file.write(f'{self.username} | {self.cookies_str}')
 
 		return(False, None)
 
@@ -250,6 +285,9 @@ class App():
 
 					return
 
+			with open('errors.txt', 'a') as file:
+				file.write(f'{self.username} | {self.cookies_str}')
+
 	def mass_retweets(self):
 		for _ in range(3):
 			try:
@@ -268,6 +306,9 @@ class App():
 				logger.success(f'{self.username} | Аккаунт успешно ретвитнул пост {tweet_url}')
 
 				return
+		
+		with open('errors.txt', 'a') as file:
+			file.write(f'{self.username} | {self.cookies_str}')
 
 	def mass_likes(self):
 		for _ in range(3):
@@ -287,6 +328,9 @@ class App():
 				logger.success(f'{self.username} | Аккаунт успешно лайкнул пост {tweet_url}')
 
 				return
+
+		with open('errors.txt', 'a') as file:
+			file.write(f'{self.username} | {self.cookies_str}')
 
 	def mass_comments(self, address):
 		for _ in range(3):
@@ -324,6 +368,9 @@ class App():
 				logger.success(f'{self.username} | Аккаунт успешно отправил комментарий для {tweet_url}')
 
 				return
+
+		with open('errors.txt', 'a') as file:
+			file.write(f'{self.username} | {self.cookies_str}')
 	
 	def mass_tweets(self, text_to_tweet):
 		for _ in range(3):
@@ -343,6 +390,9 @@ class App():
 				logger.success(f'{self.username} | Аккаунт успешно отправил твит')
 
 				return
+
+		with open('errors.txt', 'a') as file:
+			file.write(f'{self.username} | {self.cookies_str}')
 
 	def mass_unfollow(self, current_username_to_subscribe):
 		for _ in range(3):
@@ -369,6 +419,9 @@ class App():
 				logger.success(f'{self.username} | Аккаунт успешно отписался от {current_username_to_subscribe}')
 
 				return
+
+		with open('errors.txt', 'a') as file:
+			file.write(f'{self.username} | {self.cookies_str}')
 
 	def get_random_username(self):
 		while True:
@@ -414,6 +467,9 @@ class App():
 
 				return
 
+		with open('errors.txt', 'a') as file:
+			file.write(f'{self.username} | {self.cookies_str}')
+
 	def get_random_avatar_from_web(self):
 		r = get('https://thispersondoesnotexist.com/image')
 		return(b64encode(r.content))
@@ -448,6 +504,9 @@ class App():
 
 				return
 
+		with open('errors.txt', 'a') as file:
+			file.write(f'{self.username} | {self.cookies_str}')
+
 	def change_banner(self, banner_data):
 		for _ in range(3):
 			try:
@@ -466,6 +525,9 @@ class App():
 				logger.success(f'{self.username} | Аккаунт успешно сменил баннер')
 
 				return
+
+		with open('errors.txt', 'a') as file:
+			file.write(f'{self.username} | {self.cookies_str}')
 
 	def change_profile(self, action):
 		for _ in range(3):
@@ -505,80 +567,110 @@ class App():
 
 				return
 
+		with open('errors.txt', 'a') as file:
+			file.write(f'{self.username} | {self.cookies_str}')
+
+	def unfreeze_account(self):
+		for _ in range(3):
+			try:
+				r = self.session_unblock.get('https://twitter.com/account/access')
+				authenticity_token = BeautifulSoup(r.text, 'lxml').find('input', {'name': 'authenticity_token'}).get('value')
+				assignment_token = BeautifulSoup(r.text, 'lxml').find('input', {'name': 'assignment_token'}).get('value')
+
+				r = self.session_unblock.post('https://twitter.com/account/access', headers = {'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9', 'content-type': 'application/x-www-form-urlencoded', 'origin': 'https://twitter.com', 'referer': 'https://twitter.com/account/access'}, data = f'authenticity_token={authenticity_token}&assignment_token={assignment_token}&lang={self.lang}&flow=')
+
+				if not r.ok:
+					raise Wrong_Response(r)
+
+			except Exception as error:
+				logger.error(f'Ошибка при снятии временной блокировки: {str(error)}')
+
+			except Wrong_Response as error:
+				logger.error(f'Ошибка при снятии временной блокировки: {str(error)}, код ответа: {str(r.status_code)}, ответ: {str(r.text)}')
+
+			else:
+				logger.success(f'Временная блокировка успешно снята')
+
+				return(True)
+
+		return(False)
+
 def start(data):
 	current_cookies_str = data[0]
 	proxy_str = data[1]
 	app = App(current_cookies_str, proxy_str)
+	app_get_values_response = app.get_values()
 
-	if user_action == 14:
-		get_username_status, current_username = app.get_username(True)
+	if app_get_values_response:
+		if user_action == 14:
+			get_username_status, current_username = app.get_username(True)
 
-	else:
-		get_username_status, current_username = app.get_username(None)
+		else:
+			get_username_status, current_username = app.get_username(None)
 
-	if get_username_status:
-		if user_action == 1:
-			for username_to_subscribe in username_to_subscribe_list:
-				app.mass_follow(username_to_subscribe)
-
-		elif user_action == 2:
-			for username_to_subscribe in username_to_subscribe_list:
-				app.mass_unfollow(username_to_subscribe)
-
-		elif user_action == 3:
-			app.mass_retweets()
-
-		elif user_action == 4:
-			app.mass_likes()
-
-		elif user_action == 5:
-			if need_send_wallet == 'y':
-				app.mass_comments(wallets_addresses.pop(0))
-
-			else:
-				app.mass_comments(None)
-
-		elif user_action == 6:
-			if len(all_usernames) > 1:
-				for username_to_subscribe in all_usernames:
+		if get_username_status:
+			if user_action == 1:
+				for username_to_subscribe in username_to_subscribe_list:
 					app.mass_follow(username_to_subscribe)
 
-		elif user_action == 7:
-			if text_to_tweet_source == 2:
-				if text_to_tweet_type == 1:
-					current_text_to_tweet = text_to_tweet_list.pop(0)
-				elif text_to_tweet_type == 2:
-					current_text_to_tweet = text_to_tweet_list.pop(randint(0, len(text_to_tweet_list)-1))
+			elif user_action == 2:
+				for username_to_subscribe in username_to_subscribe_list:
+					app.mass_unfollow(username_to_subscribe)
+
+			elif user_action == 3:
+				app.mass_retweets()
+
+			elif user_action == 4:
+				app.mass_likes()
+
+			elif user_action == 5:
+				if need_send_wallet == 'y':
+					app.mass_comments(wallets_addresses.pop(0))
+
 				else:
-					current_text_to_tweet = choice(text_to_tweet_list)
+					app.mass_comments(None)
 
-			app.mass_tweets(current_text_to_tweet)
+			elif user_action == 6:
+				if len(all_usernames) > 1:
+					for username_to_subscribe in all_usernames[:how_much_users_first_users_to_subs]:
+						app.mass_follow(username_to_subscribe)
 
-		elif user_action == 8:
-			app.change_username()
+			elif user_action == 7:
+				if text_to_tweet_source == 2:
+					if text_to_tweet_type == 1:
+						current_text_to_tweet = text_to_tweet_list.pop(0)
+					elif text_to_tweet_type == 2:
+						current_text_to_tweet = text_to_tweet_list.pop(randint(0, len(text_to_tweet_list)-1))
+					else:
+						current_text_to_tweet = choice(text_to_tweet_list)
 
-		elif user_action == 9:
-			if avatars_source == 2:
-				avatar_data = app.get_random_avatar_from_web()
+				app.mass_tweets(current_text_to_tweet)
 
-			else:
-				avatar_data = app.get_random_image_from_list(images_folder)
+			elif user_action == 8:
+				app.change_username()
 
-			app.change_avatar(avatar_data)
+			elif user_action == 9:
+				if avatars_source == 2:
+					avatar_data = app.get_random_avatar_from_web()
 
-		elif user_action == 10:
-			banner_data = app.get_random_image_from_list(images_folder)
+				else:
+					avatar_data = app.get_random_image_from_list(images_folder)
 
-			app.change_banner(banner_data)
+				app.change_avatar(avatar_data)
 
-		elif user_action == 11:
-			app.change_profile('bio')
+			elif user_action == 10:
+				banner_data = app.get_random_image_from_list(images_folder)
 
-		elif user_action == 12:
-			app.change_profile('username')
+				app.change_banner(banner_data)
 
-		elif user_action == 13:
-			app.change_profile('location')
+			elif user_action == 11:
+				app.change_profile('bio')
+
+			elif user_action == 12:
+				app.change_profile('username')
+
+			elif user_action == 13:
+				app.change_profile('location')
 
 	if user_sleep_option == 'y':
 		sleep(user_time_to_sleep)
@@ -586,9 +678,14 @@ def start(data):
 def get_usernames(data):
 	current_cookies_str = data[0]
 	proxy_str = data[1]
-	get_username_status, current_username = App(current_cookies_str, proxy_str).get_username(None)
-	if get_username_status: return(current_username)
-	else: return(None)
+
+	app = App(current_cookies_str, proxy_str)
+	app_get_values_response = app.get_values()
+
+	if app_get_values_response:
+		get_username_status, current_username = app.get_username(None)
+		if get_username_status: return(current_username)
+		else: return(None)
 
 if __name__ == '__main__':
 	clear()
