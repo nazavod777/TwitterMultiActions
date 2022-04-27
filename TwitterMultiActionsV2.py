@@ -166,7 +166,6 @@ class App():
 				if '[' in self.cookies_str and ']' in self.cookies_str:
 					for current_cookie_value in loads('[' + self.cookies_str.split('[')[-1].replace(''''"''',''''\\"''').replace('''"\'''','''\\"\'''').replace("'", '"').replace("False", "false").replace("True","true")):
 						self.session.cookies[current_cookie_value['name']] = current_cookie_value['value']
-						self.session_unblock.cookies[current_cookie_value['name']] = current_cookie_value['value']
 
 						if current_cookie_value['name'] == 'ct0':
 							csrf_token = current_cookie_value['value']
@@ -178,7 +177,6 @@ class App():
 					self.session.headers.update({'cookie': self.cookies_str})
 					csrf_token = self.cookies_str.split('ct0=')[-1].split(';')[0]
 
-					self.session_unblock.headers.update({'cookie': self.cookies_str})
 					self.lang = self.cookies_str.split('lang=')[-1].split(';')[0]
 
 				self.session.headers.update({'authorization': bearer_token, 'x-csrf-token': csrf_token})
@@ -231,6 +229,8 @@ class App():
 						return(False, None)
 
 					elif loads(r.text)['errors'][0]['message'] == 'To protect our users from spam and other malicious activity, this account is temporarily locked. Please log in to https://twitter.com to unlock your account.':
+
+						logger.error(f'{self.cookies_str} | Обнаружена временная блокировка, cookies записаны в файл')
 
 						with open('temporarily_locked_cookies.txt', 'a') as file:
 							file.write(f'{self.cookies_str}\n')
