@@ -136,17 +136,13 @@ class Wrong_Response(BaseException):
 
 class App():
 	def __init__(self, cookies_str, current_proxy):
+		self.current_proxy = current_proxy
 		self.cookies_str = cookies_str
 		self.session = Session()
 		self.session.headers.update({'user-agent': random_useragent(), 'Origin': 'https://mobile.twitter.com', 'Referer': 'https://mobile.twitter.com/', 'x-twitter-active-user': 'yes', 'x-twitter-auth-type': 'OAuth2Session', 'x-twitter-client-language': 'en', 'content-type': 'application/json'})
 
-		self.session_unblock = Session()
-		self.session_unblock.headers.update({'accept': '*/*', 'accept-language': 'ru,en;q=0.9,vi;q=0.8,es;q=0.7', 'referer': 'https://twitter.com/i/flow/login', 'user-agent': self.session.headers['user-agent']})
-
-		if current_proxy:
-			self.session.proxies.update({'http': f'{proxy_type}://{current_proxy}', 'https': f'{proxy_type}://{current_proxy}'})
-			self.session_unblock.proxies.update({'http': f'{proxy_type}://{current_proxy}', 'https': f'{proxy_type}://{current_proxy}'})
-
+		if self.current_proxy:
+			self.session.proxies.update({'http': f'{proxy_type}://{self.current_proxy}', 'https': f'{proxy_type}://{self.current_proxy}'})
 
 	def get_values(self):
 		for _ in range(15):
@@ -168,7 +164,7 @@ class App():
 				bearer_token = 'Bearer ' + r.text.split('r="ACTION_FLUSH"')[-1].split(',s="')[1].split('"')[0]
 
 				if '[' in self.cookies_str and ']' in self.cookies_str:
-					for current_cookie_value in loads('[' + self.cookies_str.split('[')[-1]):
+					for current_cookie_value in loads('[' + self.cookies_str.split('[')[-1].replace(''''"''',''''\\"''').replace('''"\'''','''\\"\'''').replace("'", '"').replace("False", "false").replace("True","true")):
 						self.session.cookies[current_cookie_value['name']] = current_cookie_value['value']
 						self.session_unblock.cookies[current_cookie_value['name']] = current_cookie_value['value']
 
@@ -176,8 +172,7 @@ class App():
 							csrf_token = current_cookie_value['value']
 
 						elif current_cookie_value['name'] == 'lang':
-							self.lang = current_cookie_value['lang']
-
+							self.lang = current_cookie_value['value']
 
 				else:
 					self.session.headers.update({'cookie': self.cookies_str})
@@ -236,16 +231,14 @@ class App():
 						return(False, None)
 
 					elif loads(r.text)['errors'][0]['message'] == 'To protect our users from spam and other malicious activity, this account is temporarily locked. Please log in to https://twitter.com to unlock your account.':
-						logger.info(f'Пробую подтвердить аккаунт, cookies: {self.cookies_str}')
 
-						if not self.unfreeze_account():
-							with open('temporarily_locked_cookies.txt', 'a') as file:
-								file.write(f'{self.cookies_str}\n')
+						with open('temporarily_locked_cookies.txt', 'a') as file:
+							file.write(f'{self.cookies_str}\n')
 
-							return(False, None)
+						with open('temporarily_locked_proxies.txt', 'a') as file:
+							file.write(f'{self.current_proxy}\n')
 
-						else:
-							self.get_username(write_option)
+						return(False, None)
 
 				else:
 					logger.error(f'Ошибка при получении @username: {str(error)}, код ответа: {str(r.status_code)}, ответ: {str(r.text)}, строка: {self.cookies_str}')
@@ -569,31 +562,6 @@ class App():
 
 		with open('errors.txt', 'a') as file:
 			file.write(f'{self.username} | {self.cookies_str}')
-
-	def unfreeze_account(self):
-		for _ in range(3):
-			try:
-				r = self.session_unblock.get('https://twitter.com/account/access')
-				authenticity_token = BeautifulSoup(r.text, 'lxml').find('input', {'name': 'authenticity_token'}).get('value')
-				assignment_token = BeautifulSoup(r.text, 'lxml').find('input', {'name': 'assignment_token'}).get('value')
-
-				r = self.session_unblock.post('https://twitter.com/account/access', headers = {'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9', 'content-type': 'application/x-www-form-urlencoded', 'origin': 'https://twitter.com', 'referer': 'https://twitter.com/account/access'}, data = f'authenticity_token={authenticity_token}&assignment_token={assignment_token}&lang={self.lang}&flow=')
-
-				if not r.ok:
-					raise Wrong_Response(r)
-
-			except Exception as error:
-				logger.error(f'Ошибка при снятии временной блокировки: {str(error)}')
-
-			except Wrong_Response as error:
-				logger.error(f'Ошибка при снятии временной блокировки: {str(error)}, код ответа: {str(r.status_code)}, ответ: {str(r.text)}')
-
-			else:
-				logger.success(f'Временная блокировка успешно снята')
-
-				return(True)
-
-		return(False)
 
 def start(data):
 	current_cookies_str = data[0]
