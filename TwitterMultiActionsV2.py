@@ -122,7 +122,7 @@ def take_proxies(length):
 			for row in file:
 				proxies.append(row.strip())
 
-	return(proxies)
+	return(proxies[:length])
 
 def get_all_images_in_folder():
 	return(listdir(images_folder))
