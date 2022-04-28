@@ -114,9 +114,13 @@ if use_proxies == 'y':
 
 	proxies = []
 
-def take_proxies():
-	with open('proxies.txt') as file:
-		proxies = [row.strip() for row in file]
+def take_proxies(length):
+	proxies = []
+
+	while len(proxies) < length:
+		with open('proxies.txt') as file:
+			for row in file:
+				proxies.append(row.strip())
 
 	return(proxies)
 
@@ -661,7 +665,7 @@ if __name__ == '__main__':
 
 	if use_proxies == 'y':
 		while len(proxies) < len(accounts_cookies):
-			proxies.append(list(current_proxy for current_proxy in take_proxies())[0])
+			proxies = take_proxies(len(accounts_cookies))
 
 	else:
 		proxies = [None for _ in range(len(accounts_cookies))]
@@ -675,7 +679,7 @@ if __name__ == '__main__':
 				proxies = []
 
 				while len(proxies) < len(accounts_cookies):
-					proxies.append(list(current_proxy for current_proxy in take_proxies())[0])
+					proxies = take_proxies(len(accounts_cookies))
 
 		pool.map(start, list(zip(accounts_cookies, proxies)))
 
