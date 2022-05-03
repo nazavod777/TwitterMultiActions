@@ -30,7 +30,7 @@ with open('accounts.txt', 'r', encoding = 'utf-8') as file:
 
 logger.success(f'Успешно загружено {len(accounts_cookies)} аккаунтов\n')
 
-user_action = int(input('1. Массовые подписки\n2. Массовый анфолловинг\n3. Массовые ретвиты\n4. Массовые лайки\n5. Массовые комментарии\n6. Подписка между аккаунтами\n7. Сделать твит с каждого аккаунта\n8. Изменить @username на каждом аккаунте\n9. Изменить аватарку на каждом аккаунте\n10. Изменить баннер на каждом аккаунте\n11. Изменить БИО на каждом аккаунте\n12. Изменить имя на каждом аккаунте\n13. Изменить местоположение на каждом аккаунте\n14. Получить @username с каждого аккаунта в .txt\nВведите номер вашего действия: '))
+user_action = int(input('1. Массовые подписки\n2. Массовый анфолловинг\n3. Массовые ретвиты\n4. Массовые лайки\n5. Массовые комментарии\n6. Подписка между аккаунтами\n7. Сделать твит с каждого аккаунта\n8. Изменить @username на каждом аккаунте\n9. Изменить аватарку на каждом аккаунте\n10. Изменить баннер на каждом аккаунте\n11. Изменить БИО на каждом аккаунте\n12. Изменить имя на каждом аккаунте\n13. Изменить местоположение на каждом аккаунте\n14. Получить @username с каждого аккаунта в .txt\n15. Автоматическая смена паролей на аккаунтах\nВведите номер вашего действия: '))
 print('')
 
 wallets_addresses = None
@@ -50,6 +50,10 @@ elif user_action == 5:
 
 	if tag_users == 'y':
 		how_much_users_tag = int(input('Сколько друзей необходимо отметить?: '))
+		tag_users_source = int(input('Выберите способ получения @username для тега (1 - случайная генерация; 2 - из .txt файла): '))
+
+		if tag_users_source == 2:
+			tag_users_folder = input('Перетяните .txt с @username\'s для тега: ')
 	
 	need_phrase_for_comment = str(input('Добавить вашу фразу к комментарию? (y/N): ')).lower()
 
@@ -102,6 +106,12 @@ elif user_action == 10:
 elif user_action == 11:
 	bio_source = str(input('Перетяните .txt файл с БИО (каждый с новой строки): '))
 
+elif user_action == 15:
+	folder_to_old_passwords = input('Перетяните .txt файл с паролями от аккаунтов (в соотношении 1к1 с cookies): ')
+
+	with open(folder_to_old_passwords, 'r') as file:
+		old_passwords_list = [row.strip() for row in file]
+
 user_sleep_option = str(input('Использовать задержку между выполнением действий? (y/N): ')).lower()
 
 if user_sleep_option == 'y':
@@ -133,10 +143,21 @@ def get_random_bio_from_file():
 
 	return(choice(bio))
 
+def get_random_username_from_file(length):
+	with open(tag_users_folder, 'r', encoding = 'utf-8') as file:
+		usernames = [row.strip() for row in file]
+
+	return_usernames = []
+
+	for _ in range(length):
+		return_usernames.append(usernames.pop(randint(0, len(usernames) - 1)))
+
+	return(return_usernames)
+	
+
 class Wrong_Response(BaseException):
 	def __init__(self, message):
 		self.message = message
-
 
 class App():
 	def __init__(self, cookies_str, current_proxy):
@@ -337,10 +358,14 @@ class App():
 				if tag_users == 'y':
 					users_to_tag = []
 
-					for _ in range(how_much_users_tag):
-						first3 = "".join([choice("abcdefghijklmnopqrstuvwxyz013456789") for _ in range(3)])
-						r = self.session.get('https://twitter.com/i/api/1.1/search/typeahead.json?q=' + str(first3) + '&src=compose&result_type=users&context_text=' + str(first3))
-						users_to_tag.append('@' + loads(r.text)['users'][0]['screen_name'])
+					if tag_users_source == 1:
+						for _ in range(how_much_users_tag):
+							first3 = "".join([choice("abcdefghijklmnopqrstuvwxyz013456789") for _ in range(3)])
+							r = self.session.get('https://twitter.com/i/api/1.1/search/typeahead.json?q=' + str(first3) + '&src=compose&result_type=users&context_text=' + str(first3))
+							users_to_tag.append('@' + loads(r.text)['users'][0]['screen_name'])
+
+					else:
+						users_to_tag = get_random_username_from_file(how_much_users_tag)
 
 					fullmesage += '\\n'.join(users_to_tag)
 
@@ -423,12 +448,12 @@ class App():
 	def get_random_username(self):
 		while True:
 			try:
-				r = get('https://randomuser.me/api/')
+				r = get('https://story-shack-cdn-v2.glitch.me/generators/username-generator?count=2')
 
 				if not r.ok:
 					raise Wrong_Response(r)
 
-				random_username = loads(r.text)['results'][0]['login']['username']
+				random_username = loads(r.text)['data'][0]['name'] + str(randint(1, 10000))
 
 			except Exception as error:
 				logger.error(f'{self.username} | Не удалось получить случайный @username, ошибка: {str(error)}, пробую еще раз')
@@ -567,6 +592,33 @@ class App():
 		with open('errors.txt', 'a') as file:
 			file.write(f'{self.username} | {self.cookies_str}')
 
+	def change_passwords(self, old_password):
+		for _ in range(3):
+			try:
+				new_password = "".join([choice("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ013456789_") for _ in range(25)])
+
+				r = self.session.post(f'https://twitter.com/i/api/i/account/change_password.json', headers = {'content-type': 'application/x-www-form-urlencoded'}, data = f'current_password={old_password}&password={new_password}&password_confirmation={new_password}')
+
+				if not r.ok:
+					raise Wrong_Response(r)
+
+			except Exception as error:
+				logger.error(f'{self.username} | Ошибка при смене пароля: {str(error)}')
+
+			except Wrong_Response as error:
+				logger.error(f'{self.username} | Ошибка при смене пароля: {str(error)}, код ответа: {str(r.status_code)}, ответ: {str(r.text)}')
+
+			else:
+				logger.success(f'{self.username} | Аккаунт успешно сменил пароль')
+
+				with open('change_password_result.txt', 'a') as file:
+					file.write(f'{self.username}:{new_password}\n')
+
+				return
+
+		with open('errors.txt', 'a') as file:
+			file.write(f'{self.username} | {self.cookies_str}')
+
 def start(data):
 	current_cookies_str = data[0]
 	proxy_str = data[1]
@@ -643,6 +695,9 @@ def start(data):
 
 			elif user_action == 13:
 				app.change_profile('location')
+
+			elif user_action == 15:
+				app.change_passwords(old_passwords_list)
 
 	if user_sleep_option == 'y':
 		sleep(user_time_to_sleep)
