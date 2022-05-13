@@ -495,7 +495,7 @@ class App():
                 r = self.session.post(f'https://twitter.com/i/api/graphql/{self.queryIdforComment}/CreateTweet',
                                       headers={'content-type': 'application/json'},
                                       json={"variables":
-                                            {"tweet_text": "gerg",
+                                            {"tweet_text": fullmesage,
                                              "reply":
                                               {"in_reply_to_tweet_id": tweet_id,
                                                "exclude_reply_user_ids": []},
