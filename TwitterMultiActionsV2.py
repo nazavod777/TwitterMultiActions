@@ -484,13 +484,13 @@ class App():
                     else:
                         users_to_tag = get_random_username_from_file(how_much_users_tag)
 
-                    fullmesage += '\\n'.join(users_to_tag)
+                    fullmesage += '\n'.join(users_to_tag)
 
                 if need_phrase_for_comment == 'y':
-                    fullmesage += '\\n' + phrase_for_comment
+                    fullmesage += '\n' + phrase_for_comment
 
                 if address:
-                    fullmesage += '\\n' + address
+                    fullmesage += '\n' + address
 
                 r = self.session.post(f'https://twitter.com/i/api/graphql/{self.queryIdforComment}/CreateTweet',
                                       headers={'content-type': 'application/json'},
