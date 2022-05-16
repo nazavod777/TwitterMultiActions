@@ -114,11 +114,11 @@ elif user_action == 7:
                                        '2 - случайный текст без повторов; '
                                        '3 - случайный текст с повторами): '))
 
-    else:
-        current_text_to_tweet = str(input('Введите текст для твита: '))
+        with open(text_to_tweet_folder, 'r', encoding='utf-8') as file:
+            text_to_tweet_list = [row.strip() for row in file]
 
-    with open(text_to_tweet_folder, 'r', encoding='utf-8') as file:
-        text_to_tweet_list = [row.strip() for row in file]
+    else:
+        current_text_to_tweet_input = str(input('Введите текст для твита: '))
 
 elif user_action in (3, 4):
     tweet_url = str(input('Введите ссылку на твит: '))
@@ -206,6 +206,20 @@ def get_random_username_from_file(length):
         return_usernames.append(usernames.pop(randint(0, len(usernames) - 1)))
 
     return(return_usernames)
+
+
+def handle_errors(data):
+    if not data.ok:
+        raise Wrong_Response(data)
+
+    try:
+        json_data = loads(data.text)
+
+    except Exception:
+        pass
+
+    if json_data.get('errors'):
+        raise Wrong_Response(data)
 
 
 class Wrong_Response(BaseException):
@@ -381,8 +395,7 @@ class App():
                                             'content-type': 'application/x-www-form-urlencoded'},
                                          verify=False)
 
-                    if not r.ok:
-                        raise Wrong_Response(r)
+                    handle_errors(r)
 
                     rest_id = str(loads(r.text)['data']['user']['result']['rest_id'])
 
@@ -391,8 +404,7 @@ class App():
                                               'content-type': 'application/x-www-form-urlencoded'},
                                           verify=False)
 
-                    if not r.ok:
-                        raise Wrong_Response(r)
+                    handle_errors(r)
 
                 except Exception as error:
                     logger.error(f'{self.username} | Ошибка при массовой подписке: {str(error)}')
@@ -421,8 +433,7 @@ class App():
                                             "queryId": self.queryIdforRetweet},
                                       verify=False)
 
-                if not r.ok != 200:
-                    raise Wrong_Response(r)
+                handle_errors(r)
 
             except Exception as error:
                 logger.error(f'{self.username} | Ошибка при массовом ретвите: {str(error)}')
@@ -449,8 +460,7 @@ class App():
                                             "queryId": self.queryIdforRetweet},
                                       verify=False)
 
-                if not r.ok and '{"errors":[' not in r.text:
-                    raise Wrong_Response(r)
+                handle_errors(r)
 
             except Exception as error:
                 logger.error(f'{self.username} | Ошибка при массовом лайкинге: {str(error)}')
@@ -517,8 +527,7 @@ class App():
                                             "queryId": self.queryIdforComment},
                                       verify=False)
 
-                if not r.ok and '{"errors":[' not in r.text:
-                    raise Wrong_Response(r)
+                handle_errors(r)
 
             except Exception as error:
                 logger.error(f'{self.username} | Ошибка при массовых комментариях: {str(error)}')
@@ -554,15 +563,15 @@ class App():
                                              "semantic_annotation_ids": [],
                                              "dark_request": False},
                                             "features":
-                                            {"dont_mention_me_view _api_enabled": False,
+                                            {"dont_mention_me_view_api_enabled": False,
                                              "interactive_text_enabled": False,
                                              "responsive_web_uc_gql_enabled": False,
                                              "responsive_web_edit_tweet_api_enabled": False},
                                             "queryId": self.queryIdforCreateTweet},
+                                      headers={'content-type': 'application/json'},
                                       verify=False)
 
-                if not r.ok and '{"errors":[' not in r.text:
-                    raise Wrong_Response(r)
+                handle_errors(r)
 
             except Exception as error:
                 logger.error(f'{self.username} | Ошибка при массовых твитах: {str(error)}')
@@ -586,8 +595,7 @@ class App():
                                      headers={'content-type': 'application/x-www-form-urlencoded'},
                                      verify=False)
 
-                if not r.ok:
-                    raise Wrong_Response(r)
+                handle_errors(r)
 
                 rest_id = str(loads(r.text)['data']['user']['result']['rest_id'])
 
@@ -604,8 +612,7 @@ class App():
                                            'include_ext_has_nft_avatar=1&'
                                            f'skip_status=1&user_id={rest_id}')
 
-                if not r.ok:
-                    raise Wrong_Response(r)
+                handle_errors(r)
 
             except Exception as error:
                 logger.error(f'{self.username} | Ошибка при массовом анфолловинге: {str(error)}')
@@ -661,8 +668,7 @@ class App():
                                            'include_alt_text_compose=true&'
                                            f'screen_name={random_username}')
 
-                if not r.ok:
-                    raise Wrong_Response(r)
+                handle_errors(r)
 
             except Exception as error:
                 logger.error(f'{self.username} | Ошибка при смене @username: {str(error)}')
@@ -883,11 +889,15 @@ def start(data):
                 if text_to_tweet_source == 2:
                     if text_to_tweet_type == 1:
                         current_text_to_tweet = text_to_tweet_list.pop(0)
+
                     elif text_to_tweet_type == 2:
                         current_text_to_tweet = text_to_tweet_list.pop(randint(0,
                                                                        len(text_to_tweet_list)-1))
                     else:
                         current_text_to_tweet = choice(text_to_tweet_list)
+
+                else:
+                    current_text_to_tweet = current_text_to_tweet_input
 
                 app.mass_tweets(current_text_to_tweet)
 
