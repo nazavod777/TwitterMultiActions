@@ -249,7 +249,8 @@ class App():
     def get_values(self):
         for _ in range(15):
             try:
-                r = self.session.get('https://twitter.com/home', verify=False)
+                r = self.session.get('https://twitter.com/home',
+                                     verify=False)
 
                 if not r.ok:
                     raise Wrong_Response(r)
@@ -259,7 +260,8 @@ class App():
                               {'rel': 'preload', 'as': 'script', 'crossorigin': 'anonymous'})[-1]\
                     .get('href')
 
-                r = self.session.get(url_to_get_query_ids, verify=False)
+                r = self.session.get(url_to_get_query_ids,
+                                     verify=False)
                 self.queryIdforSubscribe = r.text.split('",operationName:"TweetResultByRestId')[0]\
                                                  .split('"')[-1]
                 self.queryIdforRetweet = r.text.split('",operationName:"CreateRetweet')[0]\
@@ -270,7 +272,8 @@ class App():
                                                .split('"')[-1]
                 self.queryIdforFollowers = r.text.split('",operationName:"Followers')[0]\
                                                  .split('"')[-1]
-                self.queryIdforUserByScreenName = r.text.split('",operationName:"UserByScreenName')[0]\
+                self.queryIdforUserByScreenName = r.text.split('",operationName:'
+                                                               '"UserByScreenName')[0]\
                                                         .split('"')[-1]
                 self.queryIdforCreateTweet = r.text.split('",operationName:"CreateTweet"')[0]\
                                                    .split('"')[-1]
@@ -279,7 +282,14 @@ class App():
                                                  .split('"')[0]
 
                 if '[' in self.cookies_str and ']' in self.cookies_str:
-                    for current_cookie_value in loads('[' + self.cookies_str.split('[')[-1].replace(''''"''', ''''\\"''').replace('''"\'''', '''\\"\'''').replace("'", '"').replace("False", "false").replace("True", "true").replace("None", "null")):
+                    for current_cookie_value in \
+                            loads('[' + self.cookies_str.split('[')[-1]
+                                  .replace(''''"''', ''''\\"''')
+                                  .replace('''"\'''', '''\\"\'''')
+                                  .replace("'", '"')
+                                  .replace("False", "false")
+                                  .replace("True", "true")
+                                  .replace("None", "null")):
                         self.session.cookies[current_cookie_value['name']]\
                              = current_cookie_value['value']
 
@@ -326,7 +336,8 @@ class App():
                                  'ext=ssoConnections&'
                                  'include_country_code=true&'
                                  'include_ext_dm_nsfw_media_filter=true&'
-                                 'include_ext_sharing_audiospaces_listening_data_with_followers=true',
+                                 'include_ext_sharing_audiospaces_listening_data_with_followers='
+                                 'true',
                                  verify=False)
 
             try:
@@ -390,7 +401,12 @@ class App():
         if self.username != current_username_to_subscribe:
             for _ in range(3):
                 try:
-                    r = self.session.get(f'https://mobile.twitter.com/i/api/graphql/{self.queryIdforUserByScreenName}' + '/UserByScreenName?variables={"screen_name":"' + current_username_to_subscribe + '","withSafetyModeUserFields":true,"withSuperFollowsUserFields":true}',
+                    r = self.session.get(f'https://mobile.twitter.com/i/api/graphql/'
+                                         f'{self.queryIdforUserByScreenName}'
+                                         + '/UserByScreenName?variables='
+                                         '{"screen_name":"' + current_username_to_subscribe + '",'
+                                         '"withSafetyModeUserFields":true,'
+                                         '"withSuperFollowsUserFields":true}',
                                          headers={
                                             'content-type': 'application/x-www-form-urlencoded'},
                                          verify=False)
@@ -399,7 +415,19 @@ class App():
 
                     rest_id = str(loads(r.text)['data']['user']['result']['rest_id'])
 
-                    r = self.session.post('https://mobile.twitter.com/i/api/1.1/friendships/create.json', data='include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&user_id=' + rest_id,
+                    r = self.session.post('https://mobile.twitter.com/i/api/1.1/'
+                                          'friendships/create.json',
+                                          data='include_profile_interstitial_type=1&'
+                                               'include_blocking=1&'
+                                               'include_blocked_by=1&'
+                                               'include_followed_by=1&'
+                                               'include_want_retweets=1&'
+                                               'include_mute_edge=1&'
+                                               'include_can_dm=1&'
+                                               'include_can_media_tag=1&'
+                                               'include_ext_has_nft_avatar=1&'
+                                               'skip_status=1&'
+                                               'user_id=' + rest_id,
                                           headers={
                                               'content-type': 'application/x-www-form-urlencoded'},
                                           verify=False)
@@ -425,7 +453,8 @@ class App():
     def mass_retweets(self):
         for _ in range(3):
             try:
-                r = self.session.post(f'https://twitter.com/i/api/graphql/{self.queryIdforRetweet}/CreateRetweet',
+                r = self.session.post(f'https://twitter.com/i/api/graphql/'
+                                      f'{self.queryIdforRetweet}/CreateRetweet',
                                       headers={'content-type': 'application/json'},
                                       json={"variables":
                                             {"tweet_id": tweet_id,
@@ -453,7 +482,8 @@ class App():
     def mass_likes(self):
         for _ in range(3):
             try:
-                r = self.session.post(f'https://mobile.twitter.com/i/api/graphql/{self.queryIdforLike}/FavoriteTweet',
+                r = self.session.post(f'https://mobile.twitter.com/i/api/graphql/'
+                                      f'{self.queryIdforLike}/FavoriteTweet',
                                       headers={'content-type': 'application/json'},
                                       json={"variables":
                                             {"tweet_id": tweet_id},
@@ -487,8 +517,13 @@ class App():
 
                     if tag_users_source == 1:
                         for _ in range(how_much_users_tag):
-                            first3 = "".join([choice("abcdefghijklmnopqrstuvwxyz013456789") for _ in range(3)])
-                            r = self.session.get('https://twitter.com/i/api/1.1/search/typeahead.json?q=' + str(first3) + '&src=compose&result_type=users&context_text=' + str(first3))
+                            first3 = "".join([choice("abcdefghijklmnopqrstuvwxyz013456789")
+                                             for _ in range(3)])
+                            r = self.session.get('https://twitter.com/i/api/1.1/'
+                                                 'search/typeahead.json?q='
+                                                 + str(first3) + '&src=compose&'
+                                                 'result_type=users&context_text=' + str(first3),
+                                                 verify=False)
                             users_to_tag.append('@' + loads(r.text)['users'][0]['screen_name'])
 
                     else:
@@ -502,7 +537,8 @@ class App():
                 if address:
                     fullmesage += '\n' + address
 
-                r = self.session.post(f'https://twitter.com/i/api/graphql/{self.queryIdforComment}/CreateTweet',
+                r = self.session.post(f'https://twitter.com/i/api/graphql/'
+                                      f'{self.queryIdforComment}/CreateTweet',
                                       headers={'content-type': 'application/json'},
                                       json={"variables":
                                             {"tweet_text": fullmesage,
@@ -510,19 +546,20 @@ class App():
                                               {"in_reply_to_tweet_id": tweet_id,
                                                "exclude_reply_user_ids": []},
                                              "media":
-                                             {"media_entities": [],
-                                                 "possibly_sensitive": False},
-                                                 "withDownvotePerspective": False,
-                                                 "withReactionsMetadata": False,
-                                                 "withReactionsPerspective": False,
-                                                 "withSuperFollowsTweetFields": False,
-                                                 "withSuperFollowsUserFields": False,
-                                                 "semantic_annotation_ids": [],
-                                                 "dark_request": False},
+                                              {"media_entities": [],
+                                               "possibly_sensitive": True},
+                                             "withDownvotePerspective": True,
+                                             "withReactionsMetadata": True,
+                                             "withReactionsPerspective": True,
+                                             "withSuperFollowsTweetFields": True,
+                                             "withSuperFollowsUserFields": True,
+                                             "semantic_annotation_ids": [],
+                                             "dark_request": True},
                                             "features":
-                                            {"dont_mention_me_view_api_enabled": False,
-                                             "interactive_text_enabled": False,
+                                            {"dont_mention_me_view_api_enabled": True,
+                                             "interactive_text_enabled": True,
                                              "responsive_web_uc_gql_enabled": False,
+                                             "vibe_tweet_context_enabled": False,
                                              "responsive_web_edit_tweet_api_enabled": False},
                                             "queryId": self.queryIdforComment},
                                       verify=False)
@@ -549,7 +586,8 @@ class App():
     def mass_tweets(self, text_to_tweet):
         for _ in range(3):
             try:
-                r = self.session.post(f'https://twitter.com/i/api/graphql/{self.queryIdforCreateTweet}/CreateTweet',
+                r = self.session.post(f'https://twitter.com/i/api/graphql/'
+                                      f'{self.queryIdforCreateTweet}/CreateTweet',
                                       json={"variables":
                                             {"tweet_text": text_to_tweet,
                                              "media":
@@ -558,14 +596,15 @@ class App():
                                              "withDownvotePerspective": False,
                                              "withReactionsMetadata": False,
                                              "withReactionsPerspective": False,
-                                             "withSuperFollowsTweetFields": False,
-                                             "withSuperFollowsUserFields": False,
+                                             "withSuperFollowsTweetFields": True,
+                                             "withSuperFollowsUserFields": True,
                                              "semantic_annotation_ids": [],
                                              "dark_request": False},
                                             "features":
-                                            {"dont_mention_me_view_api_enabled": False,
-                                             "interactive_text_enabled": False,
+                                            {"dont_mention_me_view_api_enabled": True,
+                                             "interactive_text_enabled": True,
                                              "responsive_web_uc_gql_enabled": False,
+                                             "vibe_tweet_context_enabled": False,
                                              "responsive_web_edit_tweet_api_enabled": False},
                                             "queryId": self.queryIdforCreateTweet},
                                       headers={'content-type': 'application/json'},
@@ -591,7 +630,12 @@ class App():
     def mass_unfollow(self, current_username_to_subscribe):
         for _ in range(3):
             try:
-                r = self.session.get(f'https://mobile.twitter.com/i/api/graphql/{self.queryIdforUserByScreenName}' + '/UserByScreenName?variables={"screen_name":"' + current_username_to_subscribe + '","withSafetyModeUserFields":true,"withSuperFollowsUserFields":true}',
+                r = self.session.get(f'https://mobile.twitter.com/i/api/graphql/'
+                                     f'{self.queryIdforUserByScreenName}'
+                                     + '/UserByScreenName?variables='
+                                     '{"screen_name":"' + current_username_to_subscribe
+                                     + '","withSafetyModeUserFields":true,'
+                                     '"withSuperFollowsUserFields":true}',
                                      headers={'content-type': 'application/x-www-form-urlencoded'},
                                      verify=False)
 
@@ -610,7 +654,8 @@ class App():
                                            'include_can_dm=1&'
                                            'include_can_media_tag=1&'
                                            'include_ext_has_nft_avatar=1&'
-                                           f'skip_status=1&user_id={rest_id}')
+                                           f'skip_status=1&user_id={rest_id}',
+                                      verify=False)
 
                 handle_errors(r)
 
@@ -633,7 +678,8 @@ class App():
     def get_random_username(self):
         while True:
             try:
-                r = get('https://story-shack-cdn-v2.glitch.me/generators/username-generator?count=2')
+                r = get('https://story-shack-cdn-v2.glitch.me/'
+                        'generators/username-generator?count=2')
 
                 if not r.ok:
                     raise Wrong_Response(r)
@@ -666,7 +712,8 @@ class App():
                                            'include_nsfw_admin_flag=true&'
                                            'include_ranked_timeline=true&'
                                            'include_alt_text_compose=true&'
-                                           f'screen_name={random_username}')
+                                           f'screen_name={random_username}',
+                                      verify=False)
 
                 handle_errors(r)
 
@@ -706,9 +753,11 @@ class App():
     def change_avatar(self, avatar_data):
         for _ in range(3):
             try:
-                r = self.session.post("https://twitter.com/i/api/1.1/account/update_profile_image.json",
+                r = self.session.post("https://twitter.com/i/api/1.1/"
+                                      "account/update_profile_image.json",
                                       data={"image": avatar_data},
-                                      headers={'content-type': 'application/x-www-form-urlencoded'})
+                                      headers={'content-type': 'application/x-www-form-urlencoded'},
+                                      verify=False)
 
                 if r.status_code != 200:
                     raise Wrong_Response(r)
@@ -731,9 +780,11 @@ class App():
     def change_banner(self, banner_data):
         for _ in range(3):
             try:
-                r = self.session.post("https://twitter.com/i/api/1.1/account/update_profile_banner.json",
+                r = self.session.post("https://twitter.com/i/api/1.1/"
+                                      "account/update_profile_banner.json",
                                       data={"banner": banner_data},
-                                      headers={'content-type': 'application/x-www-form-urlencoded'})
+                                      headers={'content-type': 'application/x-www-form-urlencoded'},
+                                      verify=False)
 
                 if r.status_code != 201:
                     raise Wrong_Response(r)
@@ -756,7 +807,12 @@ class App():
     def change_profile(self, action):
         for _ in range(3):
             try:
-                r = self.session.get('https://twitter.com/i/api/graphql/Bhlf1dYJ3bYCKmLfeEQ31A/UserByScreenName?variables={"screen_name":"' + self.username + '","withSafetyModeUserFields":true,"withSuperFollowsUserFields":true}')
+                r = self.session.get('https://twitter.com/i/api/graphql/'
+                                     'Bhlf1dYJ3bYCKmLfeEQ31A/UserByScreenName?variables='
+                                     '{"screen_name":"' + self.username + '",'
+                                     '"withSafetyModeUserFields":true,'
+                                     '"withSuperFollowsUserFields":true}',
+                                     verify=False)
 
                 if not r.ok:
                     raise Wrong_Response(r)
@@ -767,32 +823,38 @@ class App():
 
                 if action == 'username':
                     random_full_name = choice([get_full_name(), get_first_name(), get_last_name()])
-                    r = self.session.post('https://twitter.com/i/api/1.1/account/update_profile.json',
+                    r = self.session.post('https://twitter.com/i/api/1.1/'
+                                          'account/update_profile.json',
                                           headers={
                                               'content-type': 'application/x-www-form-urlencoded'},
                                           data=f'displayNameMaxLength=50&name={random_full_name}&'
                                                f'description={old_desc}&'
-                                               f'location={old_location}'.encode('utf-8'))
+                                               f'location={old_location}'.encode('utf-8'),
+                                          verify=False)
 
                 elif action == 'bio':
                     new_bio = get_random_bio_from_file()
-                    r = self.session.post('https://twitter.com/i/api/1.1/account/update_profile.json',
+                    r = self.session.post('https://twitter.com/i/api/1.1/'
+                                          'account/update_profile.json',
                                           headers={
                                               'content-type': 'application/x-www-form-urlencoded'},
                                           data=f'displayNameMaxLength=50&'
                                                f'name={old_name}&'
                                                f'description={new_bio}&'
-                                               f'location={old_location}'.encode('utf-8'))
+                                               f'location={old_location}'.encode('utf-8'),
+                                          verify=False)
 
                 elif action == 'location':
                     new_location = choice(file_list['countries']['country'])['countryName']
-                    r = self.session.post('https://twitter.com/i/api/1.1/account/update_profile.json',
+                    r = self.session.post('https://twitter.com/i/api/1.1/'
+                                          'account/update_profile.json',
                                           headers={
                                               'content-type': 'application/x-www-form-urlencoded'},
                                           data=f'displayNameMaxLength=50&'
                                                f'name={old_name}'
                                                f'&description={old_desc}'
-                                               f'&location={new_location}'.encode('utf-8'))
+                                               f'&location={new_location}'.encode('utf-8'),
+                                          verify=False)
 
                 if r.status_code != 200:
                     raise Wrong_Response(r)
@@ -815,13 +877,17 @@ class App():
     def change_passwords(self, old_password):
         for _ in range(3):
             try:
-                new_password = "".join([choice("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ013456789_") for _ in range(25)])
+                new_password = "".join([
+                               choice("abcdefghijklmnopqrstuvwxyz"
+                                      "ABCDEFGHIJKLMNOPQRSTUVWXYZ013456789_")
+                               for _ in range(25)])
 
                 r = self.session.post('https://twitter.com/i/api/i/account/change_password.json',
                                       headers={'content-type': 'application/x-www-form-urlencoded'},
                                       data=f'current_password={old_password}&'
                                            f'password={new_password}&'
-                                           f'password_confirmation={new_password}')
+                                           f'password_confirmation={new_password}',
+                                      verify=False)
 
                 if not r.ok:
                     raise Wrong_Response(r)
