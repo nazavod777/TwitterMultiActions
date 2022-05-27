@@ -239,7 +239,10 @@ class App():
             'x-twitter-active-user': 'yes',
             'x-twitter-auth-type': 'OAuth2Session',
             'x-twitter-client-language': 'en',
-            'content-type': 'application/json'})
+            'content-type': 'application/json',
+            'accept': '*/*',
+            'accept-language': 'ru,en;q=0.9,vi;q=0.8,es;q=0.7',
+            })
 
         if self.current_proxy:
             self.session.proxies.update({
