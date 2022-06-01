@@ -2,7 +2,7 @@
 from pyuseragents import random as random_useragent
 from requests import Session, get
 from random import choice, randint
-from time import sleep
+from time import sleep, time
 from msvcrt import getch
 from os import system, listdir
 from ctypes import windll
@@ -174,6 +174,12 @@ if use_proxies == 'y':
     proxies = []
 
 
+def random_with_N_digits(n):
+    range_start = 10**(n-1)
+    range_end = (10**n)-1
+    return randint(range_start, range_end)
+
+
 def take_proxies(length):
     proxies = []
 
@@ -223,8 +229,7 @@ def handle_errors(data):
 
 
 class Wrong_Response(BaseException):
-    def __init__(self, message):
-        self.message = message
+    pass
 
 
 class App():
@@ -280,6 +285,10 @@ class App():
                                                         .split('"')[-1]
                 self.queryIdforCreateTweet = r.text.split('",operationName:"CreateTweet"')[0]\
                                                    .split('"')[-1]
+                self.queryIdforDataSaverMode = r.text.split('"A",operationName:"DataSaverMode"')[0]\
+                                                     .split('"')[-1]
+                self.action_refresh = r.text.split('ACTION_REFRESH",i="')[-1]\
+                                            .split('"')[0]
                 bearer_token = 'Bearer ' + r.text.split('r="ACTION_FLUSH"')[-1]\
                                                  .split(',s="')[1]\
                                                  .split('"')[0]
@@ -312,6 +321,8 @@ class App():
                     'authorization': bearer_token,
                     'x-csrf-token': csrf_token})
 
+                self.first_step()
+
             except Exception as error:
                 logger.error(f'Ошибка при получении начальных параметров: {str(error)}')
                 continue
@@ -327,6 +338,105 @@ class App():
             file.write(f'None | {self.cookies_str}')
 
         return(False)
+
+    def first_step(self):
+        self.session.post('https://api.twitter.com/1.1/jot/client_event.json',
+                          data='category=perftown&'
+                               'log=[{"description":"rweb:cookiesMetadata:load",'
+                               '"product":"rweb",'
+                               '"event_value":' + str(int(time())) + str(randint(0, 9)) + '}]',
+                          headers={'content-type': 'application/x-www-form-urlencoded'})
+
+        self.session.post('https://twitter.com/i/api/1.1/attribution/event.json',
+                          json={"event": "open"},
+                          headers={'content-type': 'application/json'})
+
+        self.session.get('https://twitter.com/i/api/1.1/account/settings.json?'
+                         'include_mention_filter=true&'
+                         'include_nsfw_user_flag=true&'
+                         'include_nsfw_admin_flag=true&'
+                         'include_ranked_timeline=true&'
+                         'include_alt_text_compose=true&'
+                         'ext=ssoConnections&'
+                         'include_country_code=true&'
+                         'include_ext_dm_nsfw_media_filter=true&'
+                         'include_ext_sharing_audiospaces_listening_data_with_followers=true')
+
+        self.session.get('https://twitter.com/manifest.json')
+
+        self.session.post('https://api.twitter.com/1.1/jot/client_event.json',
+                          data='debug=true&'
+                               'log=[{"_category_":"client_event",'
+                               '"format_version":2,'
+                               '"triggered_on":' + str(int(time()))
+                               + str(randint(100, 999)) + ',"message":"normal/blue500/darker",'
+                               '"items":[],'
+                               '"event_namespace":{"page":"app","component":'
+                               '"theme","action":"launch","client":"m5"},'
+                               '"client_event_sequence_start_timestamp":'
+                               + str(int(time())) + str(randint(100, 999)) +
+                               ',"client_event_sequence_number":0,'
+                               '"client_app_id":"' + str(self.action_refresh) + '"}]',
+                          headers={'content-type': 'application/x-www-form-urlencoded'})
+
+        self.session.get('https://twitter.com/i/api/2/badge_count/badge_count.json?'
+                         'supports_ntab_urt=1')
+
+        self.session.post('https://twitter.com/i/api/1.1/branch/init.json',
+                          json={},
+                          headers={'content-type': 'application/json'})
+
+        self.session.get(f'https://twitter.com/i/api/graphql/{self.queryIdforDataSaverMode}'
+                         '/DataSaverMode?variables={"device_id":"Windows/Chrome"}')
+
+        sequenceStartTimestampMs = int(f'{int(time())}{random_with_N_digits(3)}')
+        visibilityPctDwellStartMs = str(int(f'{int(time())}{random_with_N_digits(3)}')
+                                        - int(random_with_N_digits(4)))
+        visibilityPctDwellEndMs = str(int(visibilityPctDwellStartMs) - randint(0, 100))
+
+        self.session.post('https://twitter.com/i/api/1.1/jot/ces/p2',
+                          json={
+                              "events": [
+                                  {"sequenceStartTimestampMs": sequenceStartTimestampMs,
+                                   "sequenceNumber": 0,
+                                   "createdAtMs": sequenceStartTimestampMs,
+                                   "event":
+                                   {"behavioralEvent": {
+                                    "v1":
+                                    {"context":
+                                     {"v1":
+                                      {}},
+                                     "action":
+                                     {"impress":
+                                      {"v2":
+                                       {"minVisibilityPct": 0,
+                                        "minDwellMs": 0,
+                                        "visibilityPctDwellStartMs": ""
+                                        + visibilityPctDwellStartMs + "",
+                                        "visibilityPctDwellEndMs": ""
+                                        + visibilityPctDwellEndMs + "",
+                                        "count": 1}
+                                       }
+                                      },
+                                        "targetView":
+                                        {"v1":
+                                         {"viewHierarchy":
+                                          [{"statefulView":
+                                           {"v1":
+                                            {"viewType": "profile",
+                                             "viewState":
+                                             {"emptyness": {}}
+                                             }
+                                            }
+                                            }]}
+                                         }
+                                     }
+                                    }
+                                    }
+                                   }],
+                              "header": {"createdAtMs": sequenceStartTimestampMs - randint(0, 100),
+                                         "retryAttempt": 0}
+                          })
 
     def get_username(self, write_option):
         for _ in range(3):
@@ -543,28 +653,34 @@ class App():
                 r = self.session.post(f'https://twitter.com/i/api/graphql/'
                                       f'{self.queryIdforComment}/CreateTweet',
                                       headers={'content-type': 'application/json'},
-                                      json={"variables":
-                                            {"tweet_text": fullmesage,
-                                             "reply":
-                                              {"in_reply_to_tweet_id": tweet_id,
-                                               "exclude_reply_user_ids": []},
-                                             "media":
-                                              {"media_entities": [],
-                                               "possibly_sensitive": False},
+                                      json={
+                                            "variables": {
+                                             "tweet_text": fullmesage,
+                                             "reply": {
+                                              "in_reply_to_tweet_id": tweet_id,
+                                              "exclude_reply_user_ids": []
+                                             },
+                                             "media": {
+                                              "media_entities": [],
+                                              "possibly_sensitive": False
+                                             },
                                              "withDownvotePerspective": False,
                                              "withReactionsMetadata": False,
                                              "withReactionsPerspective": False,
                                              "withSuperFollowsTweetFields": True,
                                              "withSuperFollowsUserFields": True,
                                              "semantic_annotation_ids": [],
-                                             "dark_request": False},
-                                            "features":
-                                            {"dont_mention_me_view_api_enabled": True,
-                                             "interactive_text_enabled": True,
-                                             "responsive_web_uc_gql_enabled": False,
-                                             "vibe_tweet_context_enabled": False,
-                                             "responsive_web_edit_tweet_api_enabled": False},
-                                            "queryId": self.queryIdforComment},
+                                             "dark_request": False
+                                            },
+                                            "features": {
+                                                "dont_mention_me_view_api_enabled": True,
+                                                "interactive_text_enabled": True,
+                                                "responsive_web_uc_gql_enabled": False,
+                                                "vibe_tweet_context_enabled": False,
+                                                "responsive_web_edit_tweet_api_enabled": False
+                                            },
+                                            "queryId": self.queryIdforComment
+                                            },
                                       verify=False)
 
                 handle_errors(r)
@@ -591,25 +707,30 @@ class App():
             try:
                 r = self.session.post(f'https://twitter.com/i/api/graphql/'
                                       f'{self.queryIdforCreateTweet}/CreateTweet',
-                                      json={"variables":
-                                            {"tweet_text": text_to_tweet,
-                                             "media":
-                                             {"media_entities": [],
-                                              "possibly_sensitive": False},
+                                      json={
+                                            "variables": {
+                                             "tweet_text": text_to_tweet,
+                                             "media": {
+                                              "media_entities": [],
+                                              "possibly_sensitive": False
+                                             },
                                              "withDownvotePerspective": False,
                                              "withReactionsMetadata": False,
                                              "withReactionsPerspective": False,
                                              "withSuperFollowsTweetFields": True,
                                              "withSuperFollowsUserFields": True,
                                              "semantic_annotation_ids": [],
-                                             "dark_request": False},
-                                            "features":
-                                            {"dont_mention_me_view_api_enabled": True,
-                                             "interactive_text_enabled": True,
-                                             "responsive_web_uc_gql_enabled": False,
-                                             "vibe_tweet_context_enabled": False,
-                                             "responsive_web_edit_tweet_api_enabled": False},
-                                            "queryId": self.queryIdforCreateTweet},
+                                             "dark_request": False
+                                            },
+                                            "features": {
+                                                "dont_mention_me_view_api_enabled": True,
+                                                "interactive_text_enabled": True,
+                                                "responsive_web_uc_gql_enabled": False,
+                                                "vibe_tweet_context_enabled": False,
+                                                "responsive_web_edit_tweet_api_enabled": False
+                                            },
+                                            "queryId": self.queryIdforCreateTweet
+                                            },
                                       headers={'content-type': 'application/json'},
                                       verify=False)
 
@@ -891,7 +1012,7 @@ class App():
                                            f'password={new_password}&'
                                            f'password_confirmation={new_password}',
                                       verify=False)
-
+                print(r.text)
                 if not r.ok:
                     raise Wrong_Response(r)
 
