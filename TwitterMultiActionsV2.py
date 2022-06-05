@@ -129,10 +129,8 @@ elif user_action in (3, 4):
                         .replace(' ', '')
 
 elif user_action == 6:
-    how_much_users_first_users_to_subs = input('Сколько первых юзеров брать для подписки '
-                                               '(условно 100 куков, '
-                                               'сколько из них первых по счету брать, напр: 20. '
-                                               'Если нужно подписаться между ВСЕМИ аккаунтами - '
+    how_much_users_first_users_to_subs = input('На сколько своих аккаунтов подписаться? '
+                                               '(Если нужно подписаться между ВСЕМИ аккаунтами - '
                                                'нажмите Enter, либо введите 0): ')
 
     if len(how_much_users_first_users_to_subs) == 0 or how_much_users_first_users_to_subs == '0':
@@ -232,6 +230,10 @@ class Wrong_Response(BaseException):
     pass
 
 
+class Wrong_UserAgent(BaseException):
+    pass
+
+
 class App():
     def __init__(self, cookies_str, current_proxy):
         self.current_proxy = current_proxy
@@ -249,8 +251,23 @@ class App():
             'accept-language': 'ru,en;q=0.9,vi;q=0.8,es;q=0.7',
             })
 
+        self.session_unblock = Session()
+        self.session_unblock.headers.update(
+            {'accept': 'text/html,application/xhtml+xml,application/'
+                       'xml;q=0.9,image/avif,image/webp,image/'
+                       'apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+             'accept-language': 'ru,en;q=0.9,vi;q=0.8,es;q=0.7',
+             'referer': 'https://twitter.com/i/flow/login',
+             'cache-control': 'max-age=0',
+             'upgrade-insecure-requests': '1',
+             'user-agent': self.session.headers['user-agent']})
+
         if self.current_proxy:
             self.session.proxies.update({
+                'http': f'{proxy_type}://{self.current_proxy}',
+                'https': f'{proxy_type}://{self.current_proxy}'})
+
+            self.session_unblock.proxies.update({
                 'http': f'{proxy_type}://{self.current_proxy}',
                 'https': f'{proxy_type}://{self.current_proxy}'})
 
@@ -305,6 +322,9 @@ class App():
                         self.session.cookies[current_cookie_value['name']]\
                              = current_cookie_value['value']
 
+                        self.session_unblock[current_cookie_value['name']]\
+                            = current_cookie_value['value']
+
                         if current_cookie_value['name'] == 'ct0':
                             csrf_token = current_cookie_value['value']
 
@@ -313,6 +333,7 @@ class App():
 
                 else:
                     self.session.headers.update({'cookie': self.cookies_str})
+                    self.session_unblock.headers.update({'cookie': self.cookies_str})
                     csrf_token = self.cookies_str.split('ct0=')[-1].split(';')[0]
 
                     self.lang = self.cookies_str.split('lang=')[-1].split(';')[0]
@@ -438,6 +459,64 @@ class App():
                                          "retryAttempt": 0}
                           })
 
+    def unfreeze_account(self):
+        for _ in range(15):
+            try:
+                r = self.session_unblock.get('https://twitter.com/account/access')
+
+                if '<p class="errorButton">'\
+                   '<a href="https://help.twitter.com/using-twitter/twitter-supported-browsers">'\
+                        in r.text:
+                    print(r.text)
+                    input()
+                    raise Wrong_UserAgent('')
+
+                authenticity_token = BeautifulSoup(r.text, 'lxml')\
+                    .find('input', {'name': 'authenticity_token'}).get('value')
+                assignment_token = BeautifulSoup(r.text, 'lxml')\
+                    .find('input', {'name': 'assignment_token'}).get('value')
+
+                r = self.session_unblock.post('https://twitter.com/account/access',
+                                              headers={
+                                                  'accept': 'text/html,application/'
+                                                            'xhtml+xml,application/'
+                                                            'xml;q=0.9,image/avif,image/'
+                                                            'webp,image/apng,*/*;'
+                                                            'q=0.8,application/'
+                                                            'signed-exchange;'
+                                                            'v=b3;q=0.9',
+                                                  'content-type': 'application/'
+                                                                  'x-www-form-urlencoded',
+                                                  'origin': 'https://twitter.com',
+                                                  'referer': 'https://twitter.com/account/access'},
+                                              data=f'authenticity_token={authenticity_token}&'
+                                                   f'assignment_token={assignment_token}&'
+                                                   f'lang={self.lang}&'
+                                                   'flow=')
+
+                if not r.ok:
+                    raise Wrong_Response(r)
+
+            except Exception as error:
+                logger.error(f'Ошибка при снятии временной блокировки: {str(error)}')
+
+            except Wrong_Response as error:
+                logger.error(f'Ошибка при снятии временной блокировки: '
+                             f'{str(error)}, код ответа: {str(r.status_code)}, '
+                             f'ответ: {str(r.text)}')
+
+            except Wrong_UserAgent:
+                new_ua = random_useragent()
+                self.session_unblock.headers['user-agent'] = new_ua
+                self.session.headers['user-agent'] = new_ua
+
+            else:
+                logger.success('Временная блокировка успешно снята')
+
+                return(True)
+
+        return(False)
+
     def get_username(self, write_option):
         for _ in range(3):
             r = self.session.get('https://mobile.twitter.com/i/api/1.1/account/settings.json?'
@@ -487,15 +566,22 @@ class App():
                             'Please log in to https://twitter.com to unlock your account.':
 
                         logger.error(f'{self.cookies_str} | Обнаружена временная блокировка, '
-                                     f'cookies записаны в файл')
+                                     f'пробую снять')
 
-                        with open('temporarily_locked_cookies.txt', 'a') as file:
-                            file.write(f'{self.cookies_str}\n')
+                        if not self.unfreeze_account():
+                            logger.error(f'{self.cookies_str} | '
+                                         'Не удалось снять временную блокировку')
 
-                        with open('temporarily_locked_proxies.txt', 'a') as file:
-                            file.write(f'{self.current_proxy}\n')
+                            with open('temporarily_locked_cookies.txt', 'a') as file:
+                                file.write(f'{self.cookies_str}\n')
 
-                        return(False, None)
+                            with open('temporarily_locked_proxies.txt', 'a') as file:
+                                file.write(f'{self.current_proxy}\n')
+
+                            return(False, None)
+
+                        else:
+                            self.get_username(write_option)
 
                 else:
                     logger.error(f'Ошибка при получении @username: {str(error)}, '
@@ -1074,8 +1160,14 @@ def start(data):
 
             elif user_action == 6:
                 if len(all_usernames) > 1:
-                    for username_to_subscribe in all_usernames[:how_much_users_first_users_to_subs]:
-                        app.mass_follow(username_to_subscribe)
+                    if not how_much_users_first_users_to_subs:
+                        accounts_subs_length = len(all_usernames)
+
+                    else:
+                        accounts_subs_length = how_much_users_first_users_to_subs
+
+                    for _ in range(accounts_subs_length):
+                        app.mass_follow(all_usernames.pop(randint(0, len(all_usernames) - 1)))
 
             elif user_action == 7:
                 if text_to_tweet_source == 2:
