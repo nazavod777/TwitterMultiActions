@@ -677,7 +677,8 @@ class App():
                                                 "interactive_text_enabled": True,
                                                 "responsive_web_uc_gql_enabled": False,
                                                 "vibe_tweet_context_enabled": False,
-                                                "responsive_web_edit_tweet_api_enabled": False
+                                                "responsive_web_edit_tweet_api_enabled": False,
+                                                "standardized_nudges_for_misinfo_nudges_enabled": False
                                             },
                                             "queryId": self.queryIdforComment
                                             },
