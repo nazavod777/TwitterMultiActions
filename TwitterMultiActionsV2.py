@@ -319,10 +319,11 @@ class App():
                                   .replace("False", "false")
                                   .replace("True", "true")
                                   .replace("None", "null")):
+
                         self.session.cookies[current_cookie_value['name']]\
                              = current_cookie_value['value']
 
-                        self.session_unblock[current_cookie_value['name']]\
+                        self.session_unblock.cookies[current_cookie_value['name']]\
                             = current_cookie_value['value']
 
                         if current_cookie_value['name'] == 'ct0':
