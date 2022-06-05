@@ -467,9 +467,9 @@ class App():
                 if '<p class="errorButton">'\
                    '<a href="https://help.twitter.com/using-twitter/twitter-supported-browsers">'\
                         in r.text:
-                    print(r.text)
-                    input()
                     raise Wrong_UserAgent('')
+
+                handle_errors(r)
 
                 authenticity_token = BeautifulSoup(r.text, 'lxml')\
                     .find('input', {'name': 'authenticity_token'}).get('value')
