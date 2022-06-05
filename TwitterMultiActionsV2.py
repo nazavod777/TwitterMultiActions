@@ -367,11 +367,13 @@ class App():
                                'log=[{"description":"rweb:cookiesMetadata:load",'
                                '"product":"rweb",'
                                '"event_value":' + str(int(time())) + str(randint(0, 9)) + '}]',
-                          headers={'content-type': 'application/x-www-form-urlencoded'})
+                          headers={'content-type': 'application/x-www-form-urlencoded'},
+                          verify=False)
 
         self.session.post('https://twitter.com/i/api/1.1/attribution/event.json',
                           json={"event": "open"},
-                          headers={'content-type': 'application/json'})
+                          headers={'content-type': 'application/json'},
+                          verify=False)
 
         self.session.get('https://twitter.com/i/api/1.1/account/settings.json?'
                          'include_mention_filter=true&'
@@ -382,9 +384,11 @@ class App():
                          'ext=ssoConnections&'
                          'include_country_code=true&'
                          'include_ext_dm_nsfw_media_filter=true&'
-                         'include_ext_sharing_audiospaces_listening_data_with_followers=true')
+                         'include_ext_sharing_audiospaces_listening_data_with_followers=true',
+                         verify=False)
 
-        self.session.get('https://twitter.com/manifest.json')
+        self.session.get('https://twitter.com/manifest.json',
+                         verify=False)
 
         self.session.post('https://api.twitter.com/1.1/jot/client_event.json',
                           data='debug=true&'
@@ -399,17 +403,21 @@ class App():
                                + str(int(time())) + str(randint(100, 999)) +
                                ',"client_event_sequence_number":0,'
                                '"client_app_id":"' + str(self.action_refresh) + '"}]',
-                          headers={'content-type': 'application/x-www-form-urlencoded'})
+                          headers={'content-type': 'application/x-www-form-urlencoded'},
+                          verify=False)
 
         self.session.get('https://twitter.com/i/api/2/badge_count/badge_count.json?'
-                         'supports_ntab_urt=1')
+                         'supports_ntab_urt=1',
+                         verify=False)
 
         self.session.post('https://twitter.com/i/api/1.1/branch/init.json',
                           json={},
-                          headers={'content-type': 'application/json'})
+                          headers={'content-type': 'application/json'},
+                          verify=False)
 
         self.session.get(f'https://twitter.com/i/api/graphql/{self.queryIdforDataSaverMode}'
-                         '/DataSaverMode?variables={"device_id":"Windows/Chrome"}')
+                         '/DataSaverMode?variables={"device_id":"Windows/Chrome"}',
+                         verify=False)
 
         sequenceStartTimestampMs = int(f'{int(time())}{random_with_N_digits(3)}')
         visibilityPctDwellStartMs = str(int(f'{int(time())}{random_with_N_digits(3)}')
@@ -458,12 +466,14 @@ class App():
                                    }],
                               "header": {"createdAtMs": sequenceStartTimestampMs - randint(0, 100),
                                          "retryAttempt": 0}
-                          })
+                          },
+                          verify=False)
 
     def unfreeze_account(self):
         for _ in range(15):
             try:
-                r = self.session_unblock.get('https://twitter.com/account/access')
+                r = self.session_unblock.get('https://twitter.com/account/access',
+                                             verify=False)
 
                 if '<p class="errorButton">'\
                    '<a href="https://help.twitter.com/using-twitter/twitter-supported-browsers">'\
@@ -493,7 +503,8 @@ class App():
                                               data=f'authenticity_token={authenticity_token}&'
                                                    f'assignment_token={assignment_token}&'
                                                    f'lang={self.lang}&'
-                                                   'flow=')
+                                                   'flow=',
+                                              verify=False)
 
                 if not r.ok:
                     raise Wrong_Response(r)
