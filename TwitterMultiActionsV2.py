@@ -180,7 +180,7 @@ elif user_action == 7:
 elif user_action == 8:
     names_source = int(input('Выберите способ загрузи @usernames '
                              '(1 - из файла; '
-                             '2 - случайные: '))
+                             '2 - случайные): '))
 
     if names_source == 1:
         usernames_folder = str(input('Перетяните .txt файл с @usernames: '))
@@ -677,11 +677,6 @@ class App():
 
                     logger.success(f'Успешно получен @username: {self.username}')
 
-            except Exception as error:
-                response = r.text.replace('\n', '').replace('\r', '')
-                logger.error(f'Ошибка при получении @username: {str(error)}, '
-                             f'ответ: {response}, строка: {self.cookies_str}')
-
             except Wrong_Response as error:
                 if 'errors' in loads(r.text).keys():
                     if loads(r.text)['errors'][0]['message'] == 'Could not authenticate you':
@@ -719,6 +714,11 @@ class App():
                     logger.error(f'Ошибка при получении @username: {str(error)}, '
                                  f'код ответа: {str(r.status_code)}, '
                                  f'ответ: {str(r.text)}, строка: {self.cookies_str}')
+
+            except Exception as error:
+                response = r.text.replace('\n', '').replace('\r', '')
+                logger.error(f'Ошибка при получении @username: {str(error)}, '
+                             f'ответ: {response}, строка: {self.cookies_str}')
 
             else:
                 return(True, self.username)
@@ -1041,7 +1041,7 @@ class App():
                              f'{str(r.status_code)}, ответ: {str(r.text)}, пробую еще раз')
 
             else:
-                logger.success(f'{self.username} | Успешно получено случайный @username: '
+                logger.success(f'{self.username} | Успешно получен случайный @username: '
                                f'{random_username}')
 
                 return(random_username)
@@ -1390,7 +1390,7 @@ if __name__ == '__main__':
             proxies = [None for _ in range(len(accounts_cookies))]
 
     if user_action == 8:
-        if names_source == 2:
+        if names_source == 1:
             with open(usernames_folder, 'r', encoding='utf-8') as file:
                 new_usernames_list = [row.strip() for row in file]
 
