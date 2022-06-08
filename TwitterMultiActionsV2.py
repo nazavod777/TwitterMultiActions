@@ -55,7 +55,10 @@ with open('accounts.txt', 'r', encoding='utf-8') as file:
 
 for current_folder in files:
     with open(current_folder, 'r', encoding='utf-8') as file:
-        accounts_cookies.append(file.read().replace('	', ' '))
+        current_cookie = file.read().replace('	', ' ')
+
+        if len(current_cookie) > 0:
+            accounts_cookies.append(current_cookie)
 
 logger.success(f'Успешно загружено {len(accounts_cookies)} аккаунтов\n')
 
@@ -79,8 +82,25 @@ print('')
 
 threads = int(input('Threads: '))
 
-# Массовые подписки / массовый анфолловинг
-if user_action in (1, 2):
+# Массовые подписки
+if user_action == 1:
+    usernames_to_subscribe_source = int(input('Выберите способ ввода @username для подписок '
+                                              '(1 - ввести вручную; '
+                                              '2 - подписываться на случайные аккаунты): '))
+
+    if usernames_to_subscribe_source == 1:
+        username_to_subscribe = str(input('Введите @username профиля '
+                                          '(профилей, разделять через запятую, без пробелов): '))\
+                                          .replace('@', '')\
+                                          .replace(' ', '')
+        username_to_subscribe_list = username_to_subscribe.split(',')
+
+    else:
+        username_to_subscribe_length = int(input('Введите количество аккаунтов, '
+                                                 'на которые нужно подписаться: '))
+
+# Массовый анфолловинг
+elif user_action == 2:
     username_to_subscribe = str(input('Введите @username профиля '
                                       '(профилей, разделять через запятую, без пробелов): '))\
                                       .replace('@', '')\
@@ -155,6 +175,15 @@ elif user_action == 7:
 
     else:
         current_text_to_tweet_input = str(input('Введите текст для твита: '))
+
+# Смена @username на каждом аккаунте
+elif user_action == 8:
+    names_source = int(input('Выберите способ загрузи @usernames '
+                             '(1 - из файла; '
+                             '2 - случайные: '))
+
+    if names_source == 1:
+        usernames_folder = str(input('Перетяните .txt файл с @usernames: '))
 
 # Смена аватарки на каждом аккаунте
 elif user_action == 9:
@@ -240,6 +269,9 @@ def handle_errors(data):
         if loads(data.text).get('errors'):
             raise Wrong_Response(data)
 
+        reason = loads(data.text)['data']['user']['result']['reason']
+        raise Account_Suspended(reason)
+
     except Exception:
         return
 
@@ -249,6 +281,10 @@ class Wrong_Response(BaseException):
 
 
 class Wrong_UserAgent(BaseException):
+    pass
+
+
+class Account_Suspended(BaseException):
     pass
 
 
@@ -305,6 +341,27 @@ class App():
         all_images_files.remove(random_file)
 
         return(b64encode(open(f'{folder}\\{random_file}', 'rb').read()))
+
+    def get_random_usernames(self, length):
+        users_list = []
+
+        for _ in range(length):
+            try:
+                first3 = "".join([choice("abcdefghijklmnopqrstuvwxyz013456789")
+                                  for _ in range(3)])
+                r = self.session.get('https://twitter.com/i/api/1.1/'
+                                     'search/typeahead.json?q='
+                                     + str(first3) + '&src=compose&'
+                                     'result_type=users&context_text=' + str(first3),
+                                     verify=False)
+
+                users_list.append('@' + loads(r.text)['users'][0]['screen_name'])
+
+            except Exception:
+                pass
+
+        else:
+            return(users_list)
 
     def get_values(self):
         for _ in range(15):
@@ -568,13 +625,18 @@ class App():
 
                 handle_errors(r)
 
+                if 'Due to a technical issue, we couldn\'t complete this request. '\
+                        'Please try again.' in r.text:
+                    raise Wrong_Response('')
+
             except Exception as error:
                 logger.error(f'Ошибка при снятии временной блокировки: {str(error)}')
 
             except Wrong_Response as error:
+                response_formated = str(r.text.replace('\n', ''))
                 logger.error(f'Ошибка при снятии временной блокировки: '
                              f'{str(error)}, код ответа: {str(r.status_code)}, '
-                             f'ответ: {str(r.text)}')
+                             f'ответ: {response_formated}')
 
             except Wrong_UserAgent:
                 new_ua = random_useragent()
@@ -589,22 +651,24 @@ class App():
         return(False)
 
     def get_username(self, write_option):
-        for _ in range(3):
-            r = self.session.get('https://mobile.twitter.com/i/api/1.1/account/settings.json?'
-                                 'include_mention_filter=true&'
-                                 'include_nsfw_user_flag=true&'
-                                 'include_nsfw_admin_flag=true&'
-                                 'include_ranked_timeline=true&'
-                                 'include_alt_text_compose=true&'
-                                 'ext=ssoConnections&'
-                                 'include_country_code=true&'
-                                 'include_ext_dm_nsfw_media_filter=true&'
-                                 'include_ext_sharing_audiospaces_listening_data_with_followers='
-                                 'true',
-                                 verify=False)
-
+        for _ in range(4):
             try:
+                r = self.session.get('https://mobile.twitter.com/i/api/1.1/account/settings.json?'
+                                     'include_mention_filter=true&'
+                                     'include_nsfw_user_flag=true&'
+                                     'include_nsfw_admin_flag=true&'
+                                     'include_ranked_timeline=true&'
+                                     'include_alt_text_compose=true&'
+                                     'ext=ssoConnections&'
+                                     'include_country_code=true&'
+                                     'include_ext_dm_nsfw_media_filter=true&'
+                                     'include_ext_sharing_audiospaces_lis'
+                                     'tening_data_with_followers='
+                                     'true',
+                                     verify=False)
+
                 handle_errors(r)
+
                 self.username = str(loads(r.text)['screen_name'])
 
                 if write_option:
@@ -649,7 +713,7 @@ class App():
                             return(False, None)
 
                         else:
-                            self.get_username(write_option)
+                            continue
 
                 else:
                     logger.error(f'Ошибка при получении @username: {str(error)}, '
@@ -671,7 +735,8 @@ class App():
                     r = self.session.get(f'https://mobile.twitter.com/i/api/graphql/'
                                          f'{self.queryIdforUserByScreenName}'
                                          + '/UserByScreenName?variables='
-                                         '{"screen_name":"' + current_username_to_subscribe + '",'
+                                         '{"screen_name":"' + current_username_to_subscribe
+                                         .replace('@', '') + '",'
                                          '"withSafetyModeUserFields":true,'
                                          '"withSuperFollowsUserFields":true}',
                                          headers={
@@ -707,6 +772,12 @@ class App():
                 except Wrong_Response as error:
                     logger.error(f'{self.username} | Ошибка при массовой подписке: {str(error)}, '
                                  f'код ответа: {str(r.status_code)}, ответ: {str(r.text)}')
+
+                except Account_Suspended as error:
+                    logger.error(f'{self.username} | Аккаунт, на который вы пытаетесь подписаться '
+                                 f'заморожен, причина: {str(error)}')
+
+                    return
 
                 else:
                     logger.success(f'{self.username} | '
@@ -783,15 +854,7 @@ class App():
                     users_to_tag = []
 
                     if tag_users_source == 1:
-                        for _ in range(how_much_users_tag):
-                            first3 = "".join([choice("abcdefghijklmnopqrstuvwxyz013456789")
-                                             for _ in range(3)])
-                            r = self.session.get('https://twitter.com/i/api/1.1/'
-                                                 'search/typeahead.json?q='
-                                                 + str(first3) + '&src=compose&'
-                                                 'result_type=users&context_text=' + str(first3),
-                                                 verify=False)
-                            users_to_tag.append('@' + loads(r.text)['users'][0]['screen_name'])
+                        users_to_tag = self.get_random_usernames(how_much_users_tag)
 
                     else:
                         users_to_tag = get_random_username_from_file(how_much_users_tag)
@@ -983,10 +1046,14 @@ class App():
 
                 return(random_username)
 
-    def change_username(self):
+    def change_username(self, new_username):
         for _ in range(3):
             try:
-                random_username = self.get_random_username()
+                if new_username:
+                    random_username = new_username
+                else:
+                    random_username = self.get_random_username()
+
                 r = self.session.post('https://twitter.com/i/api/1.1/account/settings.json',
                                       headers={'content-type': 'application/x-www-form-urlencoded'},
                                       data='include_mention_filter=true&'
@@ -1173,7 +1240,7 @@ class App():
             file.write(f'{self.username} | {self.cookies_str}')
 
 
-def start(current_cookies_str, proxy_str, wallet_address):
+def start(current_cookies_str, proxy_str, wallet_address, changed_username):
     app = App(current_cookies_str, proxy_str)
     app_get_values_response = app.get_values()
 
@@ -1186,7 +1253,14 @@ def start(current_cookies_str, proxy_str, wallet_address):
 
         if get_username_status:
             if user_action == 1:
-                for username_to_subscribe in username_to_subscribe_list:
+                if usernames_to_subscribe_source == 2:
+                    username_to_subscribe_list_local =\
+                        app.get_random_usernames(username_to_subscribe_length)
+
+                else:
+                    username_to_subscribe_list_local = username_to_subscribe_list
+
+                for username_to_subscribe in username_to_subscribe_list_local:
                     app.mass_follow(username_to_subscribe)
 
             elif user_action == 2:
@@ -1210,8 +1284,17 @@ def start(current_cookies_str, proxy_str, wallet_address):
                     else:
                         accounts_subs_length = how_much_users_first_users_to_subs
 
+                    already_used = []
+
                     for _ in range(accounts_subs_length):
-                        app.mass_follow(all_usernames.pop(randint(0, len(all_usernames) - 1)))
+                        while True:
+                            new_username = choice(all_usernames)
+
+                            if new_username not in already_used:
+                                app.mass_follow(new_username)
+                                already_used.append(new_username)
+
+                                break
 
                         if user_sleep_option == 'y':
                             sleep(user_time_to_sleep)
@@ -1233,7 +1316,7 @@ def start(current_cookies_str, proxy_str, wallet_address):
                 app.mass_tweets(current_text_to_tweet)
 
             elif user_action == 8:
-                app.change_username()
+                app.change_username(changed_username)
 
             elif user_action == 9:
                 if avatars_source == 2:
@@ -1291,6 +1374,7 @@ if __name__ == '__main__':
         proxies = [None for _ in range(len(accounts_cookies))]
 
     wallets_addresses = [None for _ in range(len(accounts_cookies))]
+    new_usernames_list = [None for _ in range(len(accounts_cookies))]
 
     if user_action == 6:
         with ThreadPoolExecutor(max_workers=threads) as executor:
@@ -1298,16 +1382,20 @@ if __name__ == '__main__':
 
         all_usernames = [result for result in results if result]
 
-    if not wallets_addresses or len(wallets_addresses) > 0:
-        if user_action == 6 and use_proxies == 'y':
-            if use_proxies == 'y':
-                proxies = []
+        if use_proxies == 'y':
+            while len(proxies) < len(accounts_cookies):
+                proxies = take_proxies(len(accounts_cookies))
 
-                while len(proxies) < len(accounts_cookies):
-                    proxies = take_proxies(len(accounts_cookies))
+        else:
+            proxies = [None for _ in range(len(accounts_cookies))]
 
-        with ThreadPoolExecutor(max_workers=threads) as executor:
-            executor.map(start, accounts_cookies, proxies, wallets_addresses)
+    if user_action == 8:
+        if names_source == 2:
+            with open(usernames_folder, 'r', encoding='utf-8') as file:
+                new_usernames_list = [row.strip() for row in file]
+
+    with ThreadPoolExecutor(max_workers=threads) as executor:
+        executor.map(start, accounts_cookies, proxies, wallets_addresses, new_usernames_list)
 
     logger.success('Работа успешно завершена')
     print('\nPress Any Key To Exit..')
