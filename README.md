@@ -6,7 +6,8 @@
 
 1. <kbd>Win</kbd> + <kbd>R</kbd> -> `cmd`
 2. `cd /d ДиректорияСоСкриптом`
-    example: `cd /d C\:TwitterMultiActions`
+    
+    Пример: `cd /d C\:TwitterMultiActions`
 3. `pip install -r requirements.txt`
 4. `python TwitterMultiActionsV2.py`
 
