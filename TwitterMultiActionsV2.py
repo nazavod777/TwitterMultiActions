@@ -892,11 +892,12 @@ class App():
                                             "features": {
                                                 "dont_mention_me_view_api_enabled": True,
                                                 "interactive_text_enabled": True,
-                                                "responsive_web_uc_gql_enabled": False,
-                                                "vibe_tweet_context_enabled": False,
                                                 "responsive_web_edit_tweet_api_enabled": False,
+                                                "responsive_web_enhance_cards_enabled": False,
+                                                "responsive_web_uc_gql_enabled": False,
                                                 "standardized_nudges_for_misinfo_"
-                                                "nudges_enabled": False
+                                                "nudges_enabled": False,
+                                                "vibe_tweet_context_enabled": False
                                             },
                                             "queryId": self.queryIdforComment
                                             },
@@ -1282,7 +1283,7 @@ def start(current_cookies_str, proxy_str, wallet_address, changed_username):
                         accounts_subs_length = len(all_usernames)
 
                     else:
-                        accounts_subs_length = how_much_users_first_users_to_subs
+                        accounts_subs_length = int(how_much_users_first_users_to_subs)
 
                     already_used = []
 
