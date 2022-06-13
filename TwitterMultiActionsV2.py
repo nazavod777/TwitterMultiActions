@@ -267,7 +267,11 @@ def handle_errors(data):
 
     try:
         if loads(data.text).get('errors'):
-            raise Wrong_Response(data)
+            if loads(data.text)['errors'][0]['message'] ==\
+                    'Your account is suspended and is not permitted to access this feature.':
+                raise Account_Suspended('')
+            else:
+                raise Wrong_Response(data)
 
         reason = loads(data.text)['data']['user']['result']['reason']
         raise Account_Suspended(reason)
@@ -676,6 +680,9 @@ class App():
                         file.write(f'{self.username}\n')
 
                     logger.success(f'Успешно получен @username: {self.username}')
+
+                else:
+                    logger.success(f'{self.username} | Аккаунт успешно авторизовался')
 
             except Wrong_Response as error:
                 if 'errors' in loads(r.text).keys():
