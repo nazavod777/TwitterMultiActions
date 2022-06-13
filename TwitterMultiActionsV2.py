@@ -269,7 +269,7 @@ def handle_errors(data):
         if loads(data.text).get('errors'):
             if loads(data.text)['errors'][0]['message'] ==\
                     'Your account is suspended and is not permitted to access this feature.':
-                raise Account_Suspended('')
+                raise Own_Account_Suspended('')
             else:
                 raise Wrong_Response(data)
 
@@ -289,6 +289,10 @@ class Wrong_UserAgent(BaseException):
 
 
 class Account_Suspended(BaseException):
+    pass
+
+
+class Own_Account_Suspended(BaseException):
     pass
 
 
@@ -478,7 +482,7 @@ class App():
                 return(True)
 
         with open('errors.txt', 'a') as file:
-            file.write(f'None | {self.cookies_str}')
+            file.write(f'None | {self.cookies_str}\n')
 
         return(False)
 
@@ -731,7 +735,7 @@ class App():
                 return(True, self.username)
 
         with open('errors.txt', 'a') as file:
-            file.write(f'{self.username} | {self.cookies_str}')
+            file.write(f'{self.username} | {self.cookies_str}\n')
 
         return(False, None)
 
@@ -784,6 +788,17 @@ class App():
                     logger.error(f'{self.username} | Аккаунт, на который вы пытаетесь подписаться '
                                  f'заморожен, причина: {str(error)}')
 
+                    return(1)
+
+                except Own_Account_Suspended:
+                    logger.error(f'{self.username} | Ваш аккаунт заблокирован')
+
+                    with open('suspended_accounts.txt', 'a') as file:
+                        file.write(f'{self.username} | {self.cookies_str}\n')
+
+                    with open('suspended_proxies.txt', 'a') as file:
+                        file.write(f'{self.current_proxy}\n')
+
                     return
 
                 else:
@@ -793,7 +808,7 @@ class App():
                     return
 
             with open('errors.txt', 'a') as file:
-                file.write(f'{self.username} | {self.cookies_str}')
+                file.write(f'{self.username} | {self.cookies_str}\n')
 
     def mass_retweets(self):
         for _ in range(3):
@@ -816,13 +831,24 @@ class App():
                 logger.error(f'{self.username} | Ошибка при массовом ретвите: {str(error)}, '
                              f'код ответа: {str(r.status_code)}, ответ: {str(r.text)}')
 
+            except Own_Account_Suspended:
+                logger.error(f'{self.username} | Ваш аккаунт заблокирован')
+
+                with open('suspended_accounts.txt', 'a') as file:
+                    file.write(f'{self.username} | {self.cookies_str}\n')
+
+                with open('suspended_proxies.txt', 'a') as file:
+                    file.write(f'{self.current_proxy}\n')
+
+                return
+
             else:
                 logger.success(f'{self.username} | Аккаунт успешно ретвитнул пост {tweet_url}')
 
                 return
 
         with open('errors.txt', 'a') as file:
-            file.write(f'{self.username} | {self.cookies_str}')
+            file.write(f'{self.username} | {self.cookies_str}\n')
 
     def mass_likes(self):
         for _ in range(3):
@@ -844,13 +870,24 @@ class App():
                 logger.error(f'{self.username} | Ошибка при массовом лайкинге: {str(error)}, '
                              f'код ответа: {str(r.status_code)}, ответ: {str(r.text)}')
 
+            except Own_Account_Suspended:
+                logger.error(f'{self.username} | Ваш аккаунт заблокирован')
+
+                with open('suspended_accounts.txt', 'a') as file:
+                    file.write(f'{self.username} | {self.cookies_str}\n')
+
+                with open('suspended_proxies.txt', 'a') as file:
+                    file.write(f'{self.current_proxy}\n')
+
+                return
+
             else:
                 logger.success(f'{self.username} | Аккаунт успешно лайкнул пост {tweet_url}')
 
                 return
 
         with open('errors.txt', 'a') as file:
-            file.write(f'{self.username} | {self.cookies_str}')
+            file.write(f'{self.username} | {self.cookies_str}\n')
 
     def mass_comments(self, address):
         for _ in range(3):
@@ -920,6 +957,17 @@ class App():
                              f'{str(error)}, код ответа: {str(r.status_code)}, '
                              f'ответ: {str(r.text)}')
 
+            except Own_Account_Suspended:
+                logger.error(f'{self.username} | Ваш аккаунт заблокирован')
+
+                with open('suspended_accounts.txt', 'a') as file:
+                    file.write(f'{self.username} | {self.cookies_str}\n')
+
+                with open('suspended_proxies.txt', 'a') as file:
+                    file.write(f'{self.current_proxy}\n')
+
+                return
+
             else:
                 logger.success(f'{self.username} | '
                                f'Аккаунт успешно отправил комментарий для {tweet_url}')
@@ -927,7 +975,7 @@ class App():
                 return
 
         with open('errors.txt', 'a') as file:
-            file.write(f'{self.username} | {self.cookies_str}')
+            file.write(f'{self.username} | {self.cookies_str}\n')
 
     def mass_tweets(self, text_to_tweet):
         for _ in range(3):
@@ -973,13 +1021,24 @@ class App():
                 logger.error(f'{self.username} | Ошибка при массовых твитах: {str(error)}, '
                              f'код ответа: {str(r.status_code)}, ответ: {str(r.text)}')
 
+            except Own_Account_Suspended:
+                logger.error(f'{self.username} | Ваш аккаунт заблокирован')
+
+                with open('suspended_accounts.txt', 'a') as file:
+                    file.write(f'{self.username} | {self.cookies_str}\n')
+
+                with open('suspended_proxies.txt', 'a') as file:
+                    file.write(f'{self.current_proxy}\n')
+
+                return
+
             else:
                 logger.success(f'{self.username} | Аккаунт успешно отправил твит')
 
                 return
 
         with open('errors.txt', 'a') as file:
-            file.write(f'{self.username} | {self.cookies_str}')
+            file.write(f'{self.username} | {self.cookies_str}\n')
 
     def mass_unfollow(self, current_username_to_subscribe):
         for _ in range(3):
@@ -1020,6 +1079,17 @@ class App():
                 logger.error(f'{self.username} | Ошибка при массовом анфолловинге: {str(error)}, '
                              f'код ответа: {str(r.status_code)}, ответ: {str(r.text)}')
 
+            except Own_Account_Suspended:
+                logger.error(f'{self.username} | Ваш аккаунт заблокирован')
+
+                with open('suspended_accounts.txt', 'a') as file:
+                    file.write(f'{self.username} | {self.cookies_str}\n')
+
+                with open('suspended_proxies.txt', 'a') as file:
+                    file.write(f'{self.current_proxy}\n')
+
+                return
+
             else:
                 logger.success(f'{self.username} | Аккаунт успешно отписался от '
                                f'{current_username_to_subscribe}')
@@ -1027,7 +1097,7 @@ class App():
                 return
 
         with open('errors.txt', 'a') as file:
-            file.write(f'{self.username} | {self.cookies_str}')
+            file.write(f'{self.username} | {self.cookies_str}\n')
 
     def get_random_username(self):
         while True:
@@ -1048,6 +1118,17 @@ class App():
                 logger.error(f'{self.username} | Не удалось получить случайный @username, '
                              f'ошибка: {str(error)}, код ответа: '
                              f'{str(r.status_code)}, ответ: {str(r.text)}, пробую еще раз')
+
+            except Own_Account_Suspended:
+                logger.error(f'{self.username} | Ваш аккаунт заблокирован')
+
+                with open('suspended_accounts.txt', 'a') as file:
+                    file.write(f'{self.username} | {self.cookies_str}\n')
+
+                with open('suspended_proxies.txt', 'a') as file:
+                    file.write(f'{self.current_proxy}\n')
+
+                return
 
             else:
                 logger.success(f'{self.username} | Успешно получен случайный @username: '
@@ -1082,6 +1163,17 @@ class App():
                 logger.error(f'{self.username} | Ошибка при смене @username: {str(error)}, '
                              f'код ответа: {str(r.status_code)}, ответ: {str(r.text)}')
 
+            except Own_Account_Suspended:
+                logger.error(f'{self.username} | Ваш аккаунт заблокирован')
+
+                with open('suspended_accounts.txt', 'a') as file:
+                    file.write(f'{self.username} | {self.cookies_str}\n')
+
+                with open('suspended_proxies.txt', 'a') as file:
+                    file.write(f'{self.current_proxy}\n')
+
+                return
+
             else:
                 with open('new_usernames.txt', 'a') as file:
                     file.write(f'{random_username}:{self.cookies_str}\n')
@@ -1091,7 +1183,7 @@ class App():
                 return
 
         with open('errors.txt', 'a') as file:
-            file.write(f'{self.username} | {self.cookies_str}')
+            file.write(f'{self.username} | {self.cookies_str}\n')
 
     def change_avatar(self, avatar_data):
         for _ in range(3):
@@ -1111,13 +1203,24 @@ class App():
                 logger.error(f'{self.username} | Ошибка при смене аватарки: {str(error)}, '
                              f'код ответа: {str(r.status_code)}, ответ: {str(r.text)}')
 
+            except Own_Account_Suspended:
+                logger.error(f'{self.username} | Ваш аккаунт заблокирован')
+
+                with open('suspended_accounts.txt', 'a') as file:
+                    file.write(f'{self.username} | {self.cookies_str}\n')
+
+                with open('suspended_proxies.txt', 'a') as file:
+                    file.write(f'{self.current_proxy}\n')
+
+                return
+
             else:
                 logger.success(f'{self.username} | Аккаунт успешно сменил аватарку')
 
                 return
 
         with open('errors.txt', 'a') as file:
-            file.write(f'{self.username} | {self.cookies_str}')
+            file.write(f'{self.username} | {self.cookies_str}\n')
 
     def change_banner(self, banner_data):
         for _ in range(3):
@@ -1137,13 +1240,24 @@ class App():
                 logger.error(f'{self.username} | Ошибка при смене баннера: {str(error)}, '
                              f'код ответа: {str(r.status_code)}, ответ: {str(r.text)}')
 
+            except Own_Account_Suspended:
+                logger.error(f'{self.username} | Ваш аккаунт заблокирован')
+
+                with open('suspended_accounts.txt', 'a') as file:
+                    file.write(f'{self.username} | {self.cookies_str}\n')
+
+                with open('suspended_proxies.txt', 'a') as file:
+                    file.write(f'{self.current_proxy}\n')
+
+                return
+
             else:
                 logger.success(f'{self.username} | Аккаунт успешно сменил баннер')
 
                 return
 
         with open('errors.txt', 'a') as file:
-            file.write(f'{self.username} | {self.cookies_str}')
+            file.write(f'{self.username} | {self.cookies_str}\n')
 
     def change_profile(self, action):
         for _ in range(3):
@@ -1205,13 +1319,24 @@ class App():
                 logger.error(f'{self.username} | Ошибка при обновлении профиля: {str(error)}, '
                              f'код ответа: {str(r.status_code)}, ответ: {str(r.text)}')
 
+            except Own_Account_Suspended:
+                logger.error(f'{self.username} | Ваш аккаунт заблокирован')
+
+                with open('suspended_accounts.txt', 'a') as file:
+                    file.write(f'{self.username} | {self.cookies_str}\n')
+
+                with open('suspended_proxies.txt', 'a') as file:
+                    file.write(f'{self.current_proxy}\n')
+
+                return
+
             else:
                 logger.success(f'{self.username} | Аккаунт успешно сменил описание/имя/локацию')
 
                 return
 
         with open('errors.txt', 'a') as file:
-            file.write(f'{self.username} | {self.cookies_str}')
+            file.write(f'{self.username} | {self.cookies_str}\n')
 
     def change_passwords(self, old_password):
         for _ in range(3):
@@ -1237,6 +1362,17 @@ class App():
                 logger.error(f'{self.username} | Ошибка при смене пароля: {str(error)}, '
                              f'код ответа: {str(r.status_code)}, ответ: {str(r.text)}')
 
+            except Own_Account_Suspended:
+                logger.error(f'{self.username} | Ваш аккаунт заблокирован')
+
+                with open('suspended_accounts.txt', 'a') as file:
+                    file.write(f'{self.username} | {self.cookies_str}\n')
+
+                with open('suspended_proxies.txt', 'a') as file:
+                    file.write(f'{self.current_proxy}\n')
+
+                return
+
             else:
                 logger.success(f'{self.username} | Аккаунт успешно сменил пароль')
 
@@ -1246,7 +1382,7 @@ class App():
                 return
 
         with open('errors.txt', 'a') as file:
-            file.write(f'{self.username} | {self.cookies_str}')
+            file.write(f'{self.username} | {self.cookies_str}\n')
 
 
 def start(current_cookies_str, proxy_str, wallet_address, changed_username):
@@ -1300,10 +1436,13 @@ def start(current_cookies_str, proxy_str, wallet_address, changed_username):
                             new_username = choice(all_usernames)
 
                             if new_username not in already_used:
-                                app.mass_follow(new_username)
                                 already_used.append(new_username)
 
-                                break
+                                if app.mass_follow(new_username) == 1:
+                                    continue
+
+                                else:
+                                    break
 
                         if user_sleep_option == 'y':
                             sleep(user_time_to_sleep)
