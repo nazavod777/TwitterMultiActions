@@ -939,7 +939,7 @@ class App():
                                                 "responsive_web_edit_tweet_api_enabled": False,
                                                 "responsive_web_enhance_cards_enabled": False,
                                                 "responsive_web_uc_gql_enabled": False,
-                                                "standardized_nudges_for_misinfo_"
+                                                "standardized_nudges_misinfo": False,
                                                 "nudges_enabled": False,
                                                 "vibe_tweet_context_enabled": False
                                             },
@@ -1003,7 +1003,7 @@ class App():
                                                 "responsive_web_edit_tweet_api_enabled": False,
                                                 "responsive_web_enhance_cards_enabled": False,
                                                 "responsive_web_uc_gql_enabled": False,
-                                                "standardized_nudges_for_misinfo_"
+                                                "standardized_nudges_misinfo": False,
                                                 "nudges_enabled": False,
                                                 "vibe_tweet_context_enabled": False
                                             },
